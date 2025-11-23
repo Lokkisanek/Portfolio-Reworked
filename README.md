@@ -1,4 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio-Reworked
+
+A modern, futuristic portfolio built with Next.js, featuring dark parallax backgrounds, Spotify integration, inline CMS, and floating dock navigation.
+
+## Features
+
+- 🎨 **Dark Parallax Background** - Multi-layered silhouette mountains with mouse and scroll effects
+- 🎵 **Spotify Widget** - Real-time "Now Playing" integration
+- ✏️ **Inline CMS** - Password-protected live content editing
+- 🚀 **Floating Dock Navigation** - macOS-style animated navigation
+- ⚡ **Modern Tech Stack** - Next.js 14, TypeScript, Tailwind CSS, Framer Motion
 
 ## Getting Started
 
@@ -34,3 +44,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+

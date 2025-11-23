@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "name": "Matyas Odehnal",
+    "title": "Fullstack Developer",
+    "description": "I build things for people."
+  },
+  "about": {
+    "text": "I am a Front End Developer..."
+  },
+  "skills": [
+    {
+      "name": "HTML5",
+      "icon": "Html5"
+    },
+    {
+      "name": "CSS3",
+      "icon": "Css3"
+    },
+    {
+      "name": "JavaScript",
+      "icon": "Javascript"
+    },
+    {
+      "name": "React",
+      "icon": "React"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Project 1",
+      "description": "Description of project 1",
+      "image": "/project1.png",
+      "link": "#"
+    }
+  ],
+  "contact": {
+    "email": "example@email.com",
+    "phone": "+123456789"
+  },
+  "spotify": {
+    "song": "Midnight City",
+    "artist": "M83",
+    "isPlaying": true
+  }
+}

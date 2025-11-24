@@ -5,6 +5,7 @@ import { motion, useMotionValue, useSpring, useTransform, MotionValue } from 'fr
 import { useRef, useState } from 'react';
 import { Home, User, Code, Briefcase, Mail, Lock, Unlock, X } from 'lucide-react';
 import Link from 'next/link';
+import GlassSurface from '@/components/ui/GlassSurface';
 
 export default function FloatingDock() {
     const mouseX = useMotionValue(Infinity);
@@ -37,19 +38,40 @@ export default function FloatingDock() {
             <motion.div
                 onMouseMove={(e) => mouseX.set(e.pageX)}
                 onMouseLeave={() => mouseX.set(Infinity)}
-                className="fixed top-6 left-1/2 -translate-x-1/2 z-50 flex h-16 items-end gap-4 rounded-2xl bg-gray-900/80 border border-white/10 px-4 pb-3 backdrop-blur-md shadow-2xl"
+                className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
             >
-                <DockIcon mouseX={mouseX} href="#hero" icon={Home} label="Home" />
-                <DockIcon mouseX={mouseX} href="#about" icon={User} label="About" />
-                <DockIcon mouseX={mouseX} href="#skills" icon={Code} label="Skills" />
-                <DockIcon mouseX={mouseX} href="#projects" icon={Briefcase} label="Projects" />
-                <DockIcon mouseX={mouseX} href="#contact" icon={Mail} label="Contact" />
+                <GlassSurface
+                    width="auto"
+                    height="auto"
+                    borderRadius={40}
+                    borderWidth={0.18}
+                    displace={10}
+                    distortionScale={-140}
+                    redOffset={6}
+                    greenOffset={14}
+                    blueOffset={28}
+                    brightness={62}
+                    opacity={0.9}
+                    mixBlendMode="screen"
+                    backgroundOpacity={0.12}
+                    saturation={1.4}
+                    blur={22}
+                    className="pointer-events-auto"
+                >
+                    <div className="flex items-center gap-4 px-6 py-3">
+                        <DockIcon mouseX={mouseX} href="#hero" icon={Home} label="Home" />
+                        <DockIcon mouseX={mouseX} href="#about" icon={User} label="About" />
+                        <DockIcon mouseX={mouseX} href="#skills" icon={Code} label="Skills" />
+                        <DockIcon mouseX={mouseX} href="#projects" icon={Briefcase} label="Projects" />
+                        <DockIcon mouseX={mouseX} href="#contact" icon={Mail} label="Contact" />
 
-                <div className="w-[1px] h-8 bg-white/10 mx-1 self-center" />
+                        <div className="w-[1px] h-8 bg-white/15 mx-1 self-center" />
 
-                <button onClick={handleAdminClick} className="relative group">
-                    <DockIconContent mouseX={mouseX} icon={isEditing ? Unlock : Lock} label={isEditing ? "Lock" : "Admin"} />
-                </button>
+                        <button onClick={handleAdminClick} className="relative group">
+                            <DockIconContent mouseX={mouseX} icon={isEditing ? Unlock : Lock} label={isEditing ? "Lock" : "Admin"} />
+                        </button>
+                    </div>
+                </GlassSurface>
             </motion.div>
 
             {/* Login Modal */}
@@ -121,7 +143,7 @@ function DockIconContent({ mouseX, icon: Icon, label }: { mouseX: MotionValue; i
                 <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 10 }}
-                    className="absolute top-full mt-2 px-2 py-1 bg-gray-900/90 text-white text-xs rounded border border-white/10 whitespace-nowrap backdrop-blur-md"
+                    className="absolute top-full mt-2 px-3 py-1 bg-black/60 text-white text-xs rounded border border-white/20 whitespace-nowrap backdrop-blur"
                 >
                     {label}
                 </motion.div>
@@ -132,9 +154,9 @@ function DockIconContent({ mouseX, icon: Icon, label }: { mouseX: MotionValue; i
                 style={{ width, height: width }}
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
-                className="aspect-square rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center hover:bg-gray-700 transition-colors shadow-lg"
+                className="aspect-square rounded-full bg-white/10 border border-white/20 flex items-center justify-center transition-colors shadow-lg backdrop-blur-sm hover:bg-white/20"
             >
-                <Icon className="w-1/2 h-1/2 text-gray-300" />
+                <Icon className="w-1/2 h-1/2 text-white" />
             </motion.div>
         </div>
     );

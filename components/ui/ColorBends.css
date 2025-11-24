@@ -1,15 +1,11 @@
 .color-bends-container {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  inset: 0;
-}
-
-.color-bends-container canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
+  z-index: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(15, 15, 30, 0.85), rgba(5, 5, 10, 1)),
+    #050507;
 }

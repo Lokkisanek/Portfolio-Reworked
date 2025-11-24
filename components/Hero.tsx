@@ -3,8 +3,13 @@
 import EditableText from './EditableText';
 import MotionWrapper from './ui/MotionWrapper';
 import { motion } from 'framer-motion';
+import { useEdit } from '@/context/EditContext';
+import CountUp from '@/components/ui/CountUp';
 
 export default function Hero() {
+    const { isEditing, content } = useEdit();
+    const heroName = (content?.hero?.name as string | undefined)?.trim() || 'Matyáš Odehnal';
+
     return (
         <section id="hero" className="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
             <div className="z-10 relative px-6">
@@ -15,12 +20,18 @@ export default function Hero() {
                 </MotionWrapper>
 
                 <MotionWrapper delay={0.2}>
-                    <EditableText
-                        section="hero"
-                        field="name"
-                        as="h1"
-                        className="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400 tracking-tight"
-                    />
+                    {isEditing ? (
+                        <EditableText
+                            section="hero"
+                            field="name"
+                            as="h1"
+                            className="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400 tracking-tight"
+                        />
+                    ) : (
+                        <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400 tracking-tight">
+                            {heroName}
+                        </h1>
+                    )}
                 </MotionWrapper>
 
                 <MotionWrapper delay={0.3}>
@@ -49,6 +60,19 @@ export default function Hero() {
                     >
                         Scroll Down
                     </motion.div>
+                </MotionWrapper>
+
+                <MotionWrapper delay={0.6} className="mt-12">
+                    <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur">
+                        <span className="text-xs uppercase tracking-[0.3em] text-gray-400">Visits</span>
+                        <CountUp
+                            from={0}
+                            to={(content?.metrics?.visits as number | undefined) ?? 1284}
+                            separator="," 
+                            duration={1.6}
+                            className="text-2xl font-semibold text-white"
+                        />
+                    </div>
                 </MotionWrapper>
             </div>
         </section>

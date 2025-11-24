@@ -1,0 +1,53 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(90vw, 900px);
+  margin: 0 auto;
+  aspect-ratio: 3.8 / 1;
+  max-height: 280px;
+  min-height: 180px;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(2.8rem, 8vw, 6.2rem);
+  font-weight: 800;
+  letter-spacing: clamp(-1px, -0.05vw, -1.5px);
+  text-align: center;
+  color: transparent;
+  white-space: pre-line;
+  background-image:
+    linear-gradient(100deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.92) 25%, rgba(180, 200, 255, 0.55) 55%, rgba(30, 40, 90, 0.85) 100%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.65), rgba(200, 210, 255, 0.2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  text-shadow:
+    0 16px 32px rgba(8, 12, 28, 0.45),
+    0 6px 18px rgba(200, 215, 255, 0.22),
+    0 -4px 10px rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    aspect-ratio: unset;
+    height: clamp(140px, 48vw, 220px);
+  }
+
+  .fallback {
+    font-size: clamp(2.4rem, 12vw, 4.2rem);
+  }
+}

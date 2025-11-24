@@ -5,7 +5,7 @@ import { updateContent } from '@/app/actions';
 
 type Content = any;
 
-type BackgroundType = 'starfield' | 'colorbends';
+type BackgroundType = 'starfield' | 'flowing-gradient' | 'colorbends';
 
 interface EditContextType {
     isEditing: boolean;
@@ -17,6 +17,8 @@ interface EditContextType {
     updateField: (section: string, field: string, value: string) => void;
     updateArrayItem: (section: string, index: number, field: string, value: string) => void;
     setBackgroundType: (type: BackgroundType) => void;
+    gradientSettings: { colors: string[]; speed: number; mouseInfluence: number };
+    updateGradientSettings: (settings: { colors: string[]; speed: number; mouseInfluence: number }) => void;
 }
 
 const EditContext = createContext<EditContextType | undefined>(undefined);
@@ -27,6 +29,13 @@ export function EditProvider({ children, initialContent }: { children: ReactNode
     const [content, setContent] = useState(initialContent);
     const [backgroundType, setBackgroundTypeState] = useState<BackgroundType>(
         (initialContent?.backgroundType as BackgroundType) || 'starfield'
+    );
+    const [gradientSettings, setGradientSettingsState] = useState(
+        initialContent?.gradientSettings || {
+            colors: ['#ff0000', '#00ff00', '#0000ff'],
+            speed: 1,
+            mouseInfluence: 0
+        }
     );
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
@@ -88,6 +97,15 @@ export function EditProvider({ children, initialContent }: { children: ReactNode
         setHasUnsavedChanges(true);
     }, []);
 
+    const updateGradientSettings = useCallback((settings: { colors: string[]; speed: number; mouseInfluence: number }) => {
+        setGradientSettingsState(settings);
+        setContent((prev: any) => ({
+            ...prev,
+            gradientSettings: settings
+        }));
+        setHasUnsavedChanges(true);
+    }, []);
+
     return (
         <EditContext.Provider value={{
             isEditing,
@@ -98,7 +116,9 @@ export function EditProvider({ children, initialContent }: { children: ReactNode
             login,
             updateField,
             updateArrayItem,
-            setBackgroundType
+            setBackgroundType,
+            gradientSettings,
+            updateGradientSettings
         }}>
             {children}
         </EditContext.Provider>

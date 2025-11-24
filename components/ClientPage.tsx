@@ -7,32 +7,70 @@ import About from '@/components/About';
 import Skills from '@/components/Skills';
 import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
-import EditToggle from '@/components/EditToggle';
-import CustomCursor from '@/components/ui/CustomCursor';
-import SpotifyWidget from '@/components/ui/SpotifyWidget';
 import FloatingDock from '@/components/ui/FloatingDock';
 import StarfieldBackground from '@/components/ui/StarfieldBackground';
-import ColorBendsBackground from '@/components/ui/ColorBendsBackground';
+import FlowingGradientBackground from '@/components/ui/FlowingGradientBackground';
+import ColorBends from '@/components/ui/ColorBends';
 import BackgroundToggle from '@/components/BackgroundToggle';
+import GradualBlur from '@/components/ui/GradualBlur';
+import SectionBlock from '@/components/ui/SectionBlock';
+import GradientEditor from '@/components/ui/GradientEditor';
 
 function ClientPageContent() {
-    const { backgroundType } = useEdit();
+    const { backgroundType, gradientSettings } = useEdit();
 
     return (
         <>
-            <CustomCursor />
-            {backgroundType === 'starfield' ? <StarfieldBackground /> : <ColorBendsBackground />}
+            {backgroundType === 'starfield' ? (
+                <StarfieldBackground />
+            ) : backgroundType === 'colorbends' ? (
+                <>
+                    <ColorBends
+                        colors={gradientSettings.colors}
+                        speed={gradientSettings.speed}
+                        mouseInfluence={gradientSettings.mouseInfluence}
+                    />
+                    <GradientEditor />
+                </>
+            ) : (
+                <>
+                    <FlowingGradientBackground
+                        colors={gradientSettings.colors}
+                        speed={gradientSettings.speed}
+                        mouseInfluence={gradientSettings.mouseInfluence}
+                    />
+                    <GradientEditor />
+                </>
+            )}
             <BackgroundToggle />
+            <GradualBlur
+                target="page"
+                position="bottom"
+                height="12rem"
+                strength={3.2}
+                divCount={6}
+                curve="bezier"
+                exponential
+                opacity={0.95}
+                zIndex={40}
+                className="pointer-events-none"
+            />
             <main className="bg-transparent min-h-screen text-white selection:bg-blue-500/30 relative z-10">
                 {/* <Navbar /> */}
                 <FloatingDock />
                 <Hero />
-                <About />
-                <Skills />
-                <Projects />
-                <Contact />
-                {/* <EditToggle /> */}
-                <SpotifyWidget />
+                <SectionBlock id="about">
+                    <About />
+                </SectionBlock>
+                <SectionBlock id="skills">
+                    <Skills />
+                </SectionBlock>
+                <SectionBlock id="projects">
+                    <Projects />
+                </SectionBlock>
+                <SectionBlock id="contact">
+                    <Contact />
+                </SectionBlock>
             </main>
         </>
     );
@@ -45,4 +83,3 @@ export default function ClientPage({ initialContent }: { initialContent: any }) 
         </EditProvider>
     );
 }
-

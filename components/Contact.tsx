@@ -8,25 +8,26 @@ export default function Contact() {
     const { contact } = content;
 
     return (
-        <section id="contact" className="py-20 bg-[#111] text-white">
-            <div className="container mx-auto px-6 text-center">
-                <h2 className="text-3xl font-bold mb-8">Get In Touch</h2>
-                <p className="text-xl text-gray-300 mb-8">
+        <div className="text-white text-center space-y-10">
+            <div className="space-y-4">
+                <h2 className="text-3xl md:text-4xl font-bold">Get In Touch</h2>
+                <p className="text-xl text-gray-300">
                     I'm currently open for new opportunities.
                 </p>
-                <div className="flex flex-col items-center space-y-4">
-                    <div className="text-2xl font-bold text-blue-400 hover:underline">
-                        <EditableText section="contact" field="email" as="span" />
-                    </div>
-                    <div className="text-gray-400">
-                        <EditableText section="contact" field="phone" as="span" />
-                    </div>
-                </div>
-
-                <footer className="mt-20 text-gray-600 text-sm">
-                    © {new Date().getFullYear()} {contact.name}. All rights reserved.
-                </footer>
             </div>
-        </section>
+
+            <div className="flex flex-col items-center space-y-4">
+                <div className="text-2xl font-bold text-blue-400 hover:underline">
+                    <EditableText section="contact" field="email" as="span" />
+                </div>
+                <div className="text-gray-400">
+                    <EditableText section="contact" field="phone" as="span" />
+                </div>
+            </div>
+
+            <footer className="pt-10 text-gray-600 text-sm border-t border-white/10">
+                © {new Date().getFullYear()} {contact.name}. All rights reserved.
+            </footer>
+        </div>
     );
 }

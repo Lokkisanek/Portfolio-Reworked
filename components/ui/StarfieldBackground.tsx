@@ -10,13 +10,12 @@ interface Star {
     vx: number;
     vy: number;
     alpha: number;
-    consumed: boolean;
 }
 
 export default function StarfieldBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const starsRef = useRef<Star[]>([]);
-    const mouseRef = useRef({ x: 0, y: 0 });
+    const mouseRef = useRef({ x: -1000, y: -1000 });
     const animationRef = useRef<number | undefined>(undefined);
 
     useEffect(() => {
@@ -47,16 +46,14 @@ export default function StarfieldBackground() {
                     y: Math.random() * canvas.height,
                     z: Math.random() * 1000,
                     size: Math.random() * 2 + 0.5,
-                    vx: 0,
-                    vy: 0,
+                    vx: (Math.random() - 0.5) * 0.2,
+                    vy: (Math.random() - 0.5) * 0.2,
                     alpha: 1,
-                    consumed: false,
                 });
             }
         };
         initStars();
 
-        // Mouse tracking
         const handleMouseMove = (e: MouseEvent) => {
             mouseRef.current = { x: e.clientX, y: e.clientY };
         };
@@ -64,61 +61,65 @@ export default function StarfieldBackground() {
 
         // Animation loop
         const animate = () => {
-            ctx.fillStyle = 'rgba(10, 10, 10, 0.15)';
+            ctx.fillStyle = '#0a0a0a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             const mouse = mouseRef.current;
-            const blackHoleRadius = 150; // Attraction radius
-            const consumeRadius = 30; // Consumption radius
-            const attractionStrength = 0.0008;
+            const attractionRadius = 240;
+            const consumeRadius = 45;
+            const attractionStrength = 0.005;
+            const swirlStrength = 0.008;
 
             starsRef.current.forEach((star) => {
-                if (star.consumed) return;
-
-                // Calculate distance to mouse (black hole)
-                const dx = mouse.x - star.x;
-                const dy = mouse.y - star.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                // Black hole attraction
-                if (distance < blackHoleRadius) {
-                    const force = attractionStrength * (1 - distance / blackHoleRadius) * 100;
-                    star.vx += (dx / distance) * force;
-                    star.vy += (dy / distance) * force;
-                }
-
-                // Apply velocity with damping
+                // gentle drift
                 star.x += star.vx;
                 star.y += star.vy;
-                star.vx *= 0.98;
-                star.vy *= 0.98;
+
+                // cursor attraction – pull nearby stars toward the pointer and let them fade out
+                const dx = mouse.x - star.x;
+                const dy = mouse.y - star.y;
+                const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+
+                if (distance < attractionRadius) {
+                    const force = attractionStrength * (1 - distance / attractionRadius);
+                    star.vx += (dx / distance) * force;
+                    star.vy += (dy / distance) * force;
+
+                    if (distance > consumeRadius) {
+                        const swirl = swirlStrength * (1 - distance / attractionRadius);
+                        star.vx += (-dy / distance) * swirl;
+                        star.vy += (dx / distance) * swirl;
+                    }
+                }
+
+                if (distance < consumeRadius) {
+                    star.alpha -= 0.18;
+                } else {
+                    star.alpha = Math.min(1, star.alpha + 0.02);
+                }
+
+                // mild damping keeps motion stable
+                star.vx *= 0.99;
+                star.vy *= 0.99;
 
                 // Starfield movement (flying through space effect)
-                star.z -= 2;
+                star.z -= 4;
                 if (star.z <= 0) {
                     star.z = 1000;
                     star.x = Math.random() * canvas.width;
                     star.y = Math.random() * canvas.height;
                     star.alpha = 1;
-                    star.consumed = false;
+                    star.vx = (Math.random() - 0.5) * 0.2;
+                    star.vy = (Math.random() - 0.5) * 0.2;
                 }
 
-                // Check if consumed by black hole
-                if (distance < consumeRadius) {
-                    star.alpha -= 0.05;
-                    if (star.alpha <= 0) {
-                        star.consumed = true;
-                        // Respawn star
-                        setTimeout(() => {
-                            star.x = Math.random() * canvas.width;
-                            star.y = Math.random() * canvas.height;
-                            star.z = 1000;
-                            star.alpha = 1;
-                            star.consumed = false;
-                            star.vx = 0;
-                            star.vy = 0;
-                        }, 100);
-                    }
+                if (star.alpha <= 0) {
+                    star.x = Math.random() * canvas.width;
+                    star.y = Math.random() * canvas.height;
+                    star.z = 1000;
+                    star.alpha = 1;
+                    star.vx = (Math.random() - 0.5) * 0.2;
+                    star.vy = (Math.random() - 0.5) * 0.2;
                 }
 
                 // Wrap around edges
@@ -148,43 +149,34 @@ export default function StarfieldBackground() {
                 ctx.beginPath();
                 ctx.arc(star.x, star.y, size, 0, Math.PI * 2);
                 ctx.fill();
-
-                // Draw motion trail for fast-moving stars
-                const speed = Math.sqrt(star.vx * star.vx + star.vy * star.vy);
-                if (speed > 0.5) {
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(speed * 0.1, 0.3) * star.alpha})`;
-                    ctx.lineWidth = size * 0.5;
-                    ctx.beginPath();
-                    ctx.moveTo(star.x - star.vx * 3, star.y - star.vy * 3);
-                    ctx.lineTo(star.x, star.y);
-                    ctx.stroke();
-                }
             });
 
-            // Draw black hole at cursor
-            const blackHoleGradient = ctx.createRadialGradient(
-                mouse.x, mouse.y, 0,
-                mouse.x, mouse.y, consumeRadius
+            // draw black hole visual at cursor while keeping default system cursor
+            const gradient = ctx.createRadialGradient(
+                mouse.x,
+                mouse.y,
+                0,
+                mouse.x,
+                mouse.y,
+                consumeRadius * 2
             );
-            blackHoleGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
-            blackHoleGradient.addColorStop(0.5, 'rgba(20, 10, 40, 0.8)');
-            blackHoleGradient.addColorStop(0.7, 'rgba(60, 30, 90, 0.4)');
-            blackHoleGradient.addColorStop(1, 'rgba(100, 50, 150, 0)');
+            gradient.addColorStop(0, 'rgba(4, 4, 6, 0.95)');
+            gradient.addColorStop(0.3, 'rgba(8, 8, 12, 0.6)');
+            gradient.addColorStop(0.7, 'rgba(12, 12, 20, 0.18)');
+            gradient.addColorStop(1, 'rgba(16, 16, 24, 0)');
 
-            ctx.fillStyle = blackHoleGradient;
+            ctx.fillStyle = gradient;
             ctx.beginPath();
-            ctx.arc(mouse.x, mouse.y, consumeRadius, 0, Math.PI * 2);
+            ctx.arc(mouse.x, mouse.y, consumeRadius * 1.6, 0, Math.PI * 2);
             ctx.fill();
 
-            // Accretion disk effect
-            const time = Date.now() * 0.001;
+            const time = Date.now() * 0.0015;
             for (let i = 0; i < 3; i++) {
-                const angle = time + i * (Math.PI * 2 / 3);
-                const diskRadius = consumeRadius * 1.5;
-                ctx.strokeStyle = `rgba(100, 50, 200, ${0.3 - i * 0.1})`;
-                ctx.lineWidth = 2;
+                const angleOffset = (time + i * 0.6) % (Math.PI * 2);
+                ctx.strokeStyle = `rgba(180, 180, 220, ${0.18 - i * 0.05})`;
+                ctx.lineWidth = 1;
                 ctx.beginPath();
-                ctx.arc(mouse.x, mouse.y, diskRadius + i * 5, angle, angle + Math.PI * 0.6);
+                ctx.arc(mouse.x, mouse.y, consumeRadius * (1.5 + i * 0.4), angleOffset, angleOffset + Math.PI * 0.8);
                 ctx.stroke();
             }
 

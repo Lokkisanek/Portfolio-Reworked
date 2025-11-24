@@ -1,55 +1,74 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 export default function CustomCursor() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [isHovering, setIsHovering] = useState(false);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [isPointer, setIsPointer] = useState(false);
 
     useEffect(() => {
-        const updateMousePosition = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
-        };
+        const updatePosition = (e: MouseEvent) => {
+            setPosition({ x: e.clientX, y: e.clientY });
 
-        const handleMouseOver = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button')) {
-                setIsHovering(true);
-            } else {
-                setIsHovering(false);
-            }
+            setIsPointer(
+                window.getComputedStyle(target).cursor === 'pointer' ||
+                target.tagName === 'BUTTON' ||
+                target.tagName === 'A'
+            );
         };
 
-        window.addEventListener('mousemove', updateMousePosition);
-        window.addEventListener('mouseover', handleMouseOver);
+        window.addEventListener('mousemove', updatePosition);
+
+        // Hide default cursor
+        document.body.style.cursor = 'none';
 
         return () => {
-            window.removeEventListener('mousemove', updateMousePosition);
-            window.removeEventListener('mouseover', handleMouseOver);
+            window.removeEventListener('mousemove', updatePosition);
+            document.body.style.cursor = 'auto';
         };
     }, []);
 
     return (
         <>
-            <motion.div
-                className="fixed top-0 left-0 w-4 h-4 bg-blue-500 rounded-full pointer-events-none z-[100] mix-blend-difference"
-                animate={{
-                    x: mousePosition.x - 8,
-                    y: mousePosition.y - 8,
-                    scale: isHovering ? 2.5 : 1,
+            <div
+                className="fixed pointer-events-none z-[9999] mix-blend-difference"
+                style={{
+                    left: `${position.x}px`,
+                    top: `${position.y}px`,
+                    transform: 'translate(-50%, -50%)',
+                    transition: 'width 0.2s ease, height 0.2s ease',
                 }}
-                transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-            />
-            <motion.div
-                className="fixed top-0 left-0 w-8 h-8 border border-white rounded-full pointer-events-none z-[100] mix-blend-difference"
-                animate={{
-                    x: mousePosition.x - 16,
-                    y: mousePosition.y - 16,
-                    scale: isHovering ? 1.5 : 1,
-                }}
-                transition={{ type: "spring", stiffness: 100, damping: 20, mass: 0.2 }}
-            />
+            >
+                {/* Outer ring */}
+                <div
+                    className="absolute rounded-full border-2 border-white"
+                    style={{
+                        width: isPointer ? '40px' : '30px',
+                        height: isPointer ? '40px' : '30px',
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        transition: 'width 0.2s ease, height 0.2s ease',
+                    }}
+                />
+                {/* Center dot */}
+                <div
+                    className="absolute rounded-full bg-white"
+                    style={{
+                        width: '4px',
+                        height: '4px',
+                        left: '50%',
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)',
+                    }}
+                />
+            </div>
+            <style jsx global>{`
+                * {
+                    cursor: none !important;
+                }
+            `}</style>
         </>
     );
 }

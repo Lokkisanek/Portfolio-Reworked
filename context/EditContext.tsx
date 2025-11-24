@@ -5,14 +5,18 @@ import { updateContent } from '@/app/actions';
 
 type Content = any;
 
+type BackgroundType = 'starfield' | 'colorbends';
+
 interface EditContextType {
     isEditing: boolean;
     isAuthenticated: boolean;
     content: Content;
+    backgroundType: BackgroundType;
     toggleEdit: () => void;
     login: (password: string) => boolean;
     updateField: (section: string, field: string, value: string) => void;
     updateArrayItem: (section: string, index: number, field: string, value: string) => void;
+    setBackgroundType: (type: BackgroundType) => void;
 }
 
 const EditContext = createContext<EditContextType | undefined>(undefined);
@@ -21,6 +25,9 @@ export function EditProvider({ children, initialContent }: { children: ReactNode
     const [isEditing, setIsEditing] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [content, setContent] = useState(initialContent);
+    const [backgroundType, setBackgroundTypeState] = useState<BackgroundType>(
+        (initialContent?.backgroundType as BackgroundType) || 'starfield'
+    );
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
     // Debounced auto-save
@@ -72,8 +79,27 @@ export function EditProvider({ children, initialContent }: { children: ReactNode
         setHasUnsavedChanges(true);
     }, []);
 
+    const setBackgroundType = useCallback((type: BackgroundType) => {
+        setBackgroundTypeState(type);
+        setContent((prev: any) => ({
+            ...prev,
+            backgroundType: type
+        }));
+        setHasUnsavedChanges(true);
+    }, []);
+
     return (
-        <EditContext.Provider value={{ isEditing, isAuthenticated, content, toggleEdit, login, updateField, updateArrayItem }}>
+        <EditContext.Provider value={{
+            isEditing,
+            isAuthenticated,
+            content,
+            backgroundType,
+            toggleEdit,
+            login,
+            updateField,
+            updateArrayItem,
+            setBackgroundType
+        }}>
             {children}
         </EditContext.Provider>
     );

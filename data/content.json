@@ -41,5 +41,6 @@
     "song": "Midnight City",
     "artist": "M83",
     "isPlaying": true
-  }
+  },
+  "backgroundType": "colorbends"
 }

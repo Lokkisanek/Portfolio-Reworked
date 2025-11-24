@@ -1,15 +1,12 @@
 'use client';
 
 import EditableText from './EditableText';
-import ParallaxBackground from './ui/ParallaxBackground';
 import MotionWrapper from './ui/MotionWrapper';
 import { motion } from 'framer-motion';
 
 export default function Hero() {
     return (
         <section id="hero" className="relative h-screen flex flex-col justify-center items-center text-center overflow-hidden">
-            <ParallaxBackground />
-
             <div className="z-10 relative px-6">
                 <MotionWrapper delay={0.1}>
                     <div className="inline-block px-3 py-1 mb-4 text-sm font-medium text-blue-400 bg-blue-500/10 rounded-full border border-blue-500/20 backdrop-blur-sm">

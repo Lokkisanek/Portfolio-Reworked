@@ -1,6 +1,6 @@
 'use client';
 
-import { EditProvider } from '@/context/EditContext';
+import { EditProvider, useEdit } from '@/context/EditContext';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
@@ -11,12 +11,19 @@ import EditToggle from '@/components/EditToggle';
 import CustomCursor from '@/components/ui/CustomCursor';
 import SpotifyWidget from '@/components/ui/SpotifyWidget';
 import FloatingDock from '@/components/ui/FloatingDock';
+import StarfieldBackground from '@/components/ui/StarfieldBackground';
+import ColorBendsBackground from '@/components/ui/ColorBendsBackground';
+import BackgroundToggle from '@/components/BackgroundToggle';
 
-export default function ClientPage({ initialContent }: { initialContent: any }) {
+function ClientPageContent() {
+    const { backgroundType } = useEdit();
+
     return (
-        <EditProvider initialContent={initialContent}>
+        <>
             <CustomCursor />
-            <main className="bg-[#0a0a0a] min-h-screen text-white selection:bg-blue-500/30">
+            {backgroundType === 'starfield' ? <StarfieldBackground /> : <ColorBendsBackground />}
+            <BackgroundToggle />
+            <main className="bg-transparent min-h-screen text-white selection:bg-blue-500/30 relative z-10">
                 {/* <Navbar /> */}
                 <FloatingDock />
                 <Hero />
@@ -27,6 +34,15 @@ export default function ClientPage({ initialContent }: { initialContent: any }) 
                 {/* <EditToggle /> */}
                 <SpotifyWidget />
             </main>
+        </>
+    );
+}
+
+export default function ClientPage({ initialContent }: { initialContent: any }) {
+    return (
+        <EditProvider initialContent={initialContent}>
+            <ClientPageContent />
         </EditProvider>
     );
 }
+

@@ -1,19 +1,10 @@
-import Link from 'next/link';
+import ClientPage from '@/components/ClientPage';
+import { getContent } from '@/lib/api';
 
-export default function Landing() {
-    return (
-        <main className="landing">
-            <div className="selector">
-                <h1 className="title">Vyber portfólio</h1>
+export const dynamic = 'force-dynamic';
 
-                <div className="buttons">
-                    <Link href="/classic" className="btn">Classic Portfolio</Link>
-                    <Link href="/visual" className="btn">Visual Portfolio</Link>
-                    <Link href="/game" className="btn">Game Portfolio</Link>
-                </div>
+export default async function VisualPortfolioPage() {
+    const initialContent = await getContent();
 
-                <footer className="landing-footer">© {new Date().getFullYear()} My Portfolio</footer>
-            </div>
-        </main>
-    );
+    return <ClientPage initialContent={initialContent} />;
 }

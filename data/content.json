@@ -67,14 +67,14 @@
   "gradientSettings": {
     "colors": [
       "#ffffff",
-      "#a90aff",
-      "#ff0033",
+      "#0aff74",
+      "#2bff00",
       "#00a1e6"
     ],
     "speed": 1.6,
     "mouseInfluence": 0
   },
   "metrics": {
-    "visits": 17
+    "visits": 77
   }
 }

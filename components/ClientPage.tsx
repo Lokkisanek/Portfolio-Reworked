@@ -7,6 +7,7 @@ import About from '@/components/About';
 import Skills from '@/components/Skills';
 import Projects from '@/components/Projects';
 import Contact from '@/components/Contact';
+import Services from '@/components/Services';
 import FloatingDock from '@/components/ui/FloatingDock';
 import StarfieldBackground from '@/components/ui/StarfieldBackground';
 import FlowingGradientBackground from '@/components/ui/FlowingGradientBackground';
@@ -64,6 +65,9 @@ function ClientPageContent() {
                 </SectionBlock>
                 <SectionBlock id="skills">
                     <Skills />
+                </SectionBlock>
+                <SectionBlock id="services">
+                    <Services />
                 </SectionBlock>
                 <SectionBlock id="projects">
                     <Projects />

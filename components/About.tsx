@@ -5,6 +5,7 @@ import Image from 'next/image';
 import EditableText from '@/components/EditableText';
 import { useEdit } from '@/context/EditContext';
 import { Clock, MapPin, Sparkles, type LucideIcon } from 'lucide-react';
+import TypeAppear from '@/components/TypeAppear';
 
 type InfoCardProps = {
     icon: LucideIcon;
@@ -31,24 +32,48 @@ function InfoCard({ icon: Icon, label, children }: InfoCardProps) {
 
 export default function About() {
     const { content, isEditing } = useEdit();
-    const photoSrc = content?.about?.photo?.trim();
-    const hasPhoto = Boolean(photoSrc);
+    const rawPhoto = (content?.about?.photo as string | undefined)?.trim();
+    // Normalize photo path for next/image:
+    // - allow 'me.jpg' or '/me.jpg' (served from public/)
+    // - accept absolute URLs (http/https)
+    // - strip a leading 'public/' if user pasted 'public/me.jpg'
+    let photoSrc = '';
+    if (rawPhoto && rawPhoto.length) {
+        const cleaned = rawPhoto.replace(/^([./\\]*?)?public[\/\\]/i, '');
+        if (/^https?:\/\//i.test(cleaned)) {
+            photoSrc = cleaned;
+        } else if (cleaned.startsWith('/')) {
+            photoSrc = cleaned;
+        } else {
+            photoSrc = `/${cleaned}`;
+        }
+    }
+    const hasPhoto = photoSrc.length > 0;
 
     return (
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_1fr] lg:items-center">
-            <div className="order-2 space-y-10 lg:order-1">
-                <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] uppercase tracking-[0.35em] text-blue-200/90 shadow-[0_18px_60px_rgba(56,189,248,0.15)]">
-                    <span className="h-2 w-2 rounded-full bg-blue-400 shadow-[0_0_12px_rgba(96,165,250,0.8)]" />
-                    <EditableText section="about" field="eyebrow" as="span" className="font-medium text-white/80" />
-                </div>
-
-                <div className="space-y-4">
+        <div className="relative pt-20 lg:pt-28">
+            {/* Headline spans the full width at the top of the section */}
+            <div className="absolute inset-x-0 top-0 px-6">
+                {isEditing ? (
                     <EditableText
                         section="about"
                         field="headline"
                         as="h2"
-                        className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-white"
+                        className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight text-white"
                     />
+                ) : (
+                    <TypeAppear
+                        text={(content?.about?.headline as string | undefined) ?? 'Hey! Im Matyas Odehnal.'}
+                        className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight text-white"
+                    />
+                )}
+            </div>
+
+            <div className="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_1fr] lg:items-center">
+            <div className="order-2 space-y-10 lg:order-1">
+              
+
+                <div className="space-y-4 pt-8">
                     <EditableText
                         section="about"
                         field="subheading"
@@ -69,32 +94,7 @@ export default function About() {
                     </div>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    <InfoCard icon={MapPin} label="based in">
-                        <EditableText
-                            section="about"
-                            field="location"
-                            as="span"
-                            className="text-lg font-medium text-white"
-                        />
-                    </InfoCard>
-                    <InfoCard icon={Sparkles} label="focused on">
-                        <EditableText
-                            section="about"
-                            field="focus"
-                            as="span"
-                            className="text-lg font-medium text-white"
-                        />
-                    </InfoCard>
-                    <InfoCard icon={Clock} label="currently">
-                        <EditableText
-                            section="about"
-                            field="availability"
-                            as="span"
-                            className="text-lg font-medium text-white"
-                        />
-                    </InfoCard>
-                </div>
+                {/* Info cards removed as requested */}
             </div>
 
             <div className="order-1 lg:order-2">
@@ -128,6 +128,7 @@ export default function About() {
                         </div>
                     )}
                 </div>
+            </div>
             </div>
         </div>
     );

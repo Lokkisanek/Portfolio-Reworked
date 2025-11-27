@@ -123,5 +123,100 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-inter, "Inter", sans-serif);
   }
+}
+
+/* Landing selector styles */
+.landing {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #000;
+  color: #fff;
+  padding: 2rem;
+}
+.selector {
+  text-align: center;
+  max-width: 720px;
+  width: 100%;
+}
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.btn {
+  background: linear-gradient(135deg,#111827 0%, #1f2937 100%);
+  color: #fff;
+  padding: .9rem 1.4rem;
+  border-radius: 0.75rem;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 -2px 0 rgba(255,255,255,0.03);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+.btn:focus {
+  outline: 2px solid rgba(255,255,255,0.08);
+  outline-offset: 2px;
+}
+.landing-footer {
+  opacity: .75;
+  font-size: .95rem;
+}
+@media (max-width:640px) {
+  .title { font-size: 1.8rem; }
+  .buttons { gap: .6rem; }
+  .btn { padding: .7rem 1rem; }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.scroll-animate {
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-animate.fade-in-up {
+  transform: translateY(20px);
+}
+
+.scroll-animate.fade-in-left {
+  transform: translateX(-20px);
+}
+
+.scroll-animate.fade-in-right {
+  transform: translateX(20px);
+}
+
+.scroll-animate.is-visible {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.hover-card-scale {
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+
+.hover-card-scale:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+.font-serif-display {
+  font-family: var(--font-playfair, "Playfair Display", serif);
 }

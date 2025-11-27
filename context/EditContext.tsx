@@ -15,7 +15,9 @@ interface EditContextType {
     toggleEdit: () => void;
     login: (password: string) => boolean;
     updateField: (section: string, field: string, value: string) => void;
-    updateArrayItem: (section: string, index: number, field: string, value: string) => void;
+    updateArrayItem: (section: string, index: number, field: string, value: any) => void;
+    addArrayItem: (section: string, item: any) => void;
+    removeArrayItem: (section: string, index: number) => void;
     setBackgroundType: (type: BackgroundType) => void;
     gradientSettings: { colors: string[]; speed: number; mouseInfluence: number };
     updateGradientSettings: (settings: { colors: string[]; speed: number; mouseInfluence: number }) => void;
@@ -79,10 +81,28 @@ export function EditProvider({ children, initialContent }: { children: ReactNode
         setHasUnsavedChanges(true);
     }, []);
 
-    const updateArrayItem = useCallback((section: string, index: number, field: string, value: string) => {
+    const updateArrayItem = useCallback((section: string, index: number, field: string, value: any) => {
         setContent((prev: any) => {
             const newArray = [...prev[section]];
             newArray[index] = { ...newArray[index], [field]: value };
+            return { ...prev, [section]: newArray };
+        });
+        setHasUnsavedChanges(true);
+    }, []);
+
+    const addArrayItem = useCallback((section: string, item: any) => {
+        setContent((prev: any) => {
+            const newArray = Array.isArray(prev[section]) ? [...prev[section]] : [];
+            newArray.push(item);
+            return { ...prev, [section]: newArray };
+        });
+        setHasUnsavedChanges(true);
+    }, []);
+
+    const removeArrayItem = useCallback((section: string, index: number) => {
+        setContent((prev: any) => {
+            const newArray = Array.isArray(prev[section]) ? [...prev[section]] : [];
+            newArray.splice(index, 1);
             return { ...prev, [section]: newArray };
         });
         setHasUnsavedChanges(true);
@@ -116,6 +136,8 @@ export function EditProvider({ children, initialContent }: { children: ReactNode
             login,
             updateField,
             updateArrayItem,
+            addArrayItem,
+            removeArrayItem,
             setBackgroundType,
             gradientSettings,
             updateGradientSettings

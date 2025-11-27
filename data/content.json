@@ -7,8 +7,8 @@
   "about": {
     "text": "A web developer from Trebic, Czech Republic, I'm passionate about crafting digital solutions that are not just functional, but also intuitive and enjoyable to use.\n\n\nMy journey into web development began with my fascination with technology. This spark ignited a continuous drive to master modern technologies like HTML, CSS, JavaScript, and frameworks such as React, Vue, Tailwind.\n\n\nI believe a great website is born from a blend of thoughtful design, clean, efficient code, and a genuine understanding of user needs. Whether it's a sleek portfolio, a dynamic e-commerce platform, or an informative business site, I approach each project with dedication and a commitment to delivering high-quality, impactful results. \n\n\nBeyond coding, I enjoy playing basketball and travelling. \n\n\nI'm always excited to connect and discuss how I can help bring your digital vision to life!",
     "subheading": "",
-    "headline": "Hey! Im          Matyas Odehnal. ",
-    "photo": ""
+    "headline": "Hey! Im Matyas Odehnal. ",
+    "photo": "public/me.jpeg\n"
   },
   "skills": [
     {
@@ -26,18 +26,36 @@
     {
       "name": "React",
       "icon": "React"
+    },
+    {
+      "name": "Node.js",
+      "icon": "Nodejs"
+    },
+    {
+      "name": "Canva",
+      "icon": "Canva"
+    },
+    {
+      "name": "Laravel",
+      "icon": "Laravel"
+    },
+    {
+      "name": "Bootstrap",
+      "icon": "Bootstrap"
     }
   ],
   "projects": [
     {
-      "title": "Project 1",
-      "description": "Description of project 1",
-      "image": "/project1.png",
-      "link": "#"
+      "title": "Project Union",
+      "description": "A live demo hosted on Project Union.",
+      "image": "/project-union.png",
+      "link": "https://project-union.duckdns.org/",
+      "embed": false
     }
   ],
   "contact": {
-    "email": "example@email.com",
+    "name": "Matyas Odehnal",
+    "email": "odehnalm.08@spst.eu",
     "phone": "+123456789"
   },
   "spotify": {
@@ -49,11 +67,14 @@
   "gradientSettings": {
     "colors": [
       "#ffffff",
-      "#000000",
-      "#ffffff",
-      "#88ff47"
+      "#a90aff",
+      "#ff0033",
+      "#00a1e6"
     ],
-    "speed": 0.9,
+    "speed": 1.6,
     "mouseInfluence": 0
+  },
+  "metrics": {
+    "visits": 17
   }
 }

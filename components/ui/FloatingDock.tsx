@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import { Home, User, Code, Briefcase, Mail, Lock, Unlock, X } from 'lucide-react';
 import Link from 'next/link';
 import GlassSurface from '@/components/ui/GlassSurface';
+import { useScroll } from '@/components/ScrollContext';
 
 export default function FloatingDock() {
     const mouseX = useMotionValue(Infinity);
@@ -59,11 +60,11 @@ export default function FloatingDock() {
                     className="pointer-events-auto"
                 >
                     <div className="flex items-center gap-4 px-6 py-3">
-                        <DockIcon mouseX={mouseX} href="#hero" icon={Home} label="Home" />
-                        <DockIcon mouseX={mouseX} href="#about" icon={User} label="About" />
-                        <DockIcon mouseX={mouseX} href="#skills" icon={Code} label="Skills" />
-                        <DockIcon mouseX={mouseX} href="#projects" icon={Briefcase} label="Projects" />
-                        <DockIcon mouseX={mouseX} href="#contact" icon={Mail} label="Contact" />
+                            <DockIcon mouseX={mouseX} href="#hero" icon={Home} label="Home" />
+                            <DockIcon mouseX={mouseX} href="#about" icon={User} label="About" />
+                            <DockIcon mouseX={mouseX} href="#skills" icon={Code} label="Skills" />
+                            <DockIcon mouseX={mouseX} href="#projects" icon={Briefcase} label="Projects" />
+                            <DockIcon mouseX={mouseX} href="#contact" icon={Mail} label="Contact" />
 
                         <div className="w-[1px] h-8 bg-white/15 mx-1 self-center" />
 
@@ -116,10 +117,17 @@ export default function FloatingDock() {
 }
 
 function DockIcon({ mouseX, href, icon: Icon, label }: { mouseX: MotionValue; href: string; icon: any; label: string }) {
+    const { setSelected } = useScroll();
+
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        setSelected(href.replace('#', ''));
+    };
+
     return (
-        <Link href={href}>
+        <a href={href} onClick={handleClick}>
             <DockIconContent mouseX={mouseX} icon={Icon} label={label} />
-        </Link>
+        </a>
     );
 }
 

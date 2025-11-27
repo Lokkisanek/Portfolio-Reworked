@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 export default function CustomCursor() {
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
     const [isPointer, setIsPointer] = useState(false);
 
     useEffect(() => {
@@ -31,39 +31,41 @@ export default function CustomCursor() {
 
     return (
         <>
-            <div
-                className="fixed pointer-events-none z-[9999] mix-blend-difference"
-                style={{
-                    left: `${position.x}px`,
-                    top: `${position.y}px`,
-                    transform: 'translate(-50%, -50%)',
-                    transition: 'width 0.2s ease, height 0.2s ease',
-                }}
-            >
-                {/* Outer ring */}
+            {position && (
                 <div
-                    className="absolute rounded-full border-2 border-white"
+                    className="fixed pointer-events-none z-[9999] mix-blend-difference"
                     style={{
-                        width: isPointer ? '40px' : '30px',
-                        height: isPointer ? '40px' : '30px',
-                        left: '50%',
-                        top: '50%',
+                        left: `${position.x}px`,
+                        top: `${position.y}px`,
                         transform: 'translate(-50%, -50%)',
                         transition: 'width 0.2s ease, height 0.2s ease',
                     }}
-                />
-                {/* Center dot */}
-                <div
-                    className="absolute rounded-full bg-white"
-                    style={{
-                        width: '4px',
-                        height: '4px',
-                        left: '50%',
-                        top: '50%',
-                        transform: 'translate(-50%, -50%)',
-                    }}
-                />
-            </div>
+                >
+                    {/* Outer ring */}
+                    <div
+                        className="absolute rounded-full border-2 border-white"
+                        style={{
+                            width: isPointer ? '40px' : '30px',
+                            height: isPointer ? '40px' : '30px',
+                            left: '50%',
+                            top: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            transition: 'width 0.2s ease, height 0.2s ease',
+                        }}
+                    />
+                    {/* Center dot */}
+                    <div
+                        className="absolute rounded-full bg-white"
+                        style={{
+                            width: '4px',
+                            height: '4px',
+                            left: '50%',
+                            top: '50%',
+                            transform: 'translate(-50%, -50%)',
+                        }}
+                    />
+                </div>
+            )}
             <style jsx global>{`
                 * {
                     cursor: none !important;

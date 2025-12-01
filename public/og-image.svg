@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Matyas Odehnal Web Developer">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#020617" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1020" cy="150" r="240" fill="url(#accent)" opacity="0.2" />
+  <text x="120" y="250" fill="#a5b4fc" font-size="48" font-family="'Inter', 'Segoe UI', sans-serif" letter-spacing="0.2em">PORTFOLIO</text>
+  <text x="120" y="340" fill="#f8fafc" font-size="88" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="700">Maty&#225;&#353; Odehnal</text>
+  <text x="120" y="420" fill="#e2e8f0" font-size="42" font-family="'Inter', 'Segoe UI', sans-serif">Web developer &#8226; T&#345;eb&#237;&#269; &#8226; Affordable modern websites</text>
+</svg>

@@ -179,7 +179,7 @@ export default function ColorBends({
         });
         rendererRef.current = renderer;
         renderer.outputColorSpace = THREE.SRGBColorSpace;
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setPixelRatio(Math.min((globalThis as any).devicePixelRatio || 1, 2));
         renderer.setClearColor(0x000000, transparent ? 0 : 1);
         renderer.domElement.style.width = '100%';
         renderer.domElement.style.height = '100%';
@@ -197,12 +197,12 @@ export default function ColorBends({
 
         handleResize();
 
-        if ('ResizeObserver' in window) {
+        if (typeof (globalThis as any).ResizeObserver !== 'undefined') {
             const ro = new ResizeObserver(handleResize);
             ro.observe(container);
             resizeObserverRef.current = ro;
-        } else {
-            window.addEventListener('resize', handleResize);
+        } else if (typeof (globalThis as any) !== 'undefined') {
+            (globalThis as any).addEventListener('resize', handleResize);
         }
 
         const loop = () => {
@@ -229,7 +229,7 @@ export default function ColorBends({
         return () => {
             if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
             if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
-            else window.removeEventListener('resize', handleResize);
+            else if (typeof (globalThis as any) !== 'undefined') (globalThis as any).removeEventListener('resize', handleResize);
             geometry.dispose();
             material.dispose();
             renderer.dispose();

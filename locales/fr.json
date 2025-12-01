@@ -1,0 +1,94 @@
+{
+  "navbar": {
+    "brand": "Portfolio",
+    "home": "Accueil",
+    "about": "À propos",
+    "skills": "Compétences",
+    "projects": "Projets",
+    "contact": "Contact",
+    "admin": "Admin",
+    "lock": "Verrouiller"
+  },
+  "hero": {
+    "badge": "Bienvenue sur mon portfolio",
+    "name": "Matyáš Odehnal",
+    "title": "Développeur Fullstack",
+    "description": "Je crée des choses pour les gens.",
+    "scroll": "Faites défiler",
+    "visits": "VISITES"
+  },
+  "about": {
+    "headline": "Hey! I'm Matyas Odehnal.",
+    "subheading": "Frontend developer focused on interactive UIs and modern web tooling.",
+    "text": "Développeur web originaire de Trebic, en République tchèque, je suis passionné par la création de solutions digitales qui ne sont pas seulement fonctionnelles, mais aussi intuitives et agréables à utiliser.\n\nMon parcours dans le développement web a commencé par ma fascination pour la technologie. Cette étincelle a nourri un élan constant pour maîtriser les technologies modernes comme HTML, CSS, JavaScript et des frameworks tels que React, Vue et Tailwind.\n\nJe suis convaincu qu'un excellent site web naît d'un mélange de design réfléchi, de code propre et efficace et d'une véritable compréhension des besoins des utilisateurs. Qu'il s'agisse d'un portfolio élégant, d'une plateforme e-commerce dynamique ou d'un site vitrine informatif, j'aborde chaque projet avec engagement et l'envie de livrer des résultats de haute qualité et à fort impact.\n\nEn dehors du code, j'aime jouer au basket et voyager.\n\nJe suis toujours heureux d'échanger pour voir comment je peux donner vie à votre vision digitale !",
+    "upload_prompt": "Upload your portrait via editing mode"
+  },
+  "services": {
+    "title": "Services",
+    "cards": {
+      "web_design": {
+        "title": "1. Web design & UI/UX",
+        "bullets": [
+          "Conception de homepage (Figma ou prototype HTML)",
+          "Consultation UX - layout, flux, couleurs",
+          "Responsive mobile/desktop"
+        ]
+      },
+      "custom_website": {
+        "title": "2. Site web sur mesure (développement)",
+        "bullets": [
+          "HTML, CSS, JavaScript (ou React)",
+          "Responsive mobile/tablette",
+          "Formulaires basiques et animations simples"
+        ]
+      },
+      "personal_brand": {
+        "title": "3. Mini marque personnelle",
+        "bullets": [
+          "Logo / icône simple",
+          "Palette de couleurs et typographie",
+          "Style visuel pour le web / les réseaux sociaux"
+        ]
+      },
+      "site_improvements": {
+        "title": "4. Améliorations d'un site existant",
+        "bullets": [
+          "Corrections de layout",
+          "Améliorations de la version mobile",
+          "Ajout de nouvelles sections"
+        ]
+      },
+      "seo_performance": {
+        "title": "5. SEO & performance de base",
+        "bullets": [
+          "Meta tags, titres, structure",
+          "Optimisation des images",
+          "Analyse basique du site et recommandations"
+        ]
+      },
+      "consultation": {
+        "title": "6. Consultation",
+        "bullets": [
+          "Planification de la structure du site",
+          "Choix technologique",
+          "Conseil UX/UI ou contenu"
+        ],
+        "note": "20 premières minutes offertes"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contacte-moi",
+    "description": "Je suis disponible pour de nouvelles opportunités — envoie-moi un message ou retrouve-moi sur les réseaux sociaux.",
+    "name_placeholder": "Ton nom",
+    "email_placeholder": "Ton e-mail (optionnel)",
+    "message_placeholder": "Ton message",
+    "send": "Envoyer",
+    "sending": "Envoi...",
+    "clear": "Effacer",
+    "no_email": "Aucun e-mail configuré. Contacte-moi directement.",
+    "success": "Merci pour ton message ! Je te réponds très vite.",
+    "error": "Une erreur est survenue lors de l'envoi. Réessaie ou écris-moi directement par e-mail.",
+    "validation_error": "Écris au moins 10 caractères pour m'expliquer comment je peux aider."
+  }
+}

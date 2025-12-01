@@ -1,0 +1,94 @@
+{
+  "navbar": {
+    "brand": "Portfolio",
+    "home": "Start",
+    "about": "Über mich",
+    "skills": "Fähigkeiten",
+    "projects": "Projekte",
+    "contact": "Kontakt",
+    "admin": "Admin",
+    "lock": "Sperren"
+  },
+  "hero": {
+    "badge": "Willkommen in meinem Portfolio",
+    "name": "Matyáš Odehnal",
+    "title": "Fullstack-Entwickler",
+    "description": "Ich baue Dinge für Menschen.",
+    "scroll": "Nach unten scrollen",
+    "visits": "BESUCHE"
+  },
+  "about": {
+    "headline": "Hey! I'm Matyas Odehnal.",
+    "subheading": "Frontend developer focused on interactive UIs and modern web tooling.",
+    "text": "Ich bin Webentwickler aus Trebic in der Tschechischen Republik und liebe es, digitale Lösungen zu bauen, die nicht nur funktionieren, sondern auch intuitiv und angenehm zu benutzen sind.\n\nMein Weg in die Webentwicklung begann mit meiner Faszination für Technologie. Dieser Funke entfachte einen dauerhaften Antrieb, moderne Technologien wie HTML, CSS, JavaScript sowie Frameworks wie React, Vue und Tailwind zu meistern.\n\nIch glaube, dass eine großartige Website aus einer Mischung aus durchdachtem Design, sauberem, effizientem Code und echtem Verständnis für die Bedürfnisse der Nutzer entsteht. Ob elegantes Portfolio, dynamische E-Commerce-Plattform oder informativer Unternehmensauftritt - jedes Projekt gehe ich mit Engagement und dem Anspruch an, hochwertige, wirkungsvolle Ergebnisse zu liefern.\n\nAbseits des Codings spiele ich gern Basketball und reise.\n\nIch freue mich immer darauf, ins Gespräch zu kommen und darüber zu sprechen, wie ich deine digitale Vision zum Leben erwecken kann!",
+    "upload_prompt": "Upload your portrait via editing mode"
+  },
+  "services": {
+    "title": "Leistungen",
+    "cards": {
+      "web_design": {
+        "title": "1. Webdesign & UI/UX",
+        "bullets": [
+          "Startseitendesign (Figma oder HTML-Prototyp)",
+          "UX-Beratung - Layout, Flow, Farben",
+          "Responsiv für Mobil/Desktop"
+        ]
+      },
+      "custom_website": {
+        "title": "2. Individuelle Website (Entwicklung)",
+        "bullets": [
+          "HTML, CSS, JavaScript (oder React)",
+          "Responsiv für Mobil/Tablet",
+          "Einfache Formulare & leichte Animationen"
+        ]
+      },
+      "personal_brand": {
+        "title": "3. Persönliche Mini-Marke",
+        "bullets": [
+          "Einfaches Logo / Icon",
+          "Farbpalette & Typografie",
+          "Visueller Stil für Web / Social Posts"
+        ]
+      },
+      "site_improvements": {
+        "title": "4. Verbesserungen bestehender Seiten",
+        "bullets": [
+          "Layout-Korrekturen",
+          "Optimierung der Mobilversion",
+          "Neue Sektionen hinzufügen"
+        ]
+      },
+      "seo_performance": {
+        "title": "5. Basis-SEO & Performance",
+        "bullets": [
+          "Meta-Tags, Überschriften, Struktur",
+          "Bildoptimierung",
+          "Grundlegende Site-Analyse und Empfehlungen"
+        ]
+      },
+      "consultation": {
+        "title": "6. Beratung",
+        "bullets": [
+          "Planung der Seitenstruktur",
+          "Technologieauswahl",
+          "UX/UI- oder Content-Beratung"
+        ],
+        "note": "Die ersten 20 Minuten sind gratis"
+      }
+    }
+  },
+  "contact": {
+    "title": "Schreib mir",
+    "description": "Ich bin offen für neue Möglichkeiten – schick mir eine Nachricht oder kontaktiere mich in sozialen Netzwerken.",
+    "name_placeholder": "Dein Name",
+    "email_placeholder": "Deine E-Mail (optional)",
+    "message_placeholder": "Deine Nachricht",
+    "send": "Nachricht senden",
+    "sending": "Wird gesendet...",
+    "clear": "Löschen",
+    "no_email": "Keine E-Mail konfiguriert. Bitte kontaktiere mich direkt.",
+    "success": "Danke für deine Nachricht! Ich melde mich bald.",
+    "error": "Beim Senden ist ein Fehler aufgetreten. Bitte versuch es erneut oder schreib mir direkt per E-Mail.",
+    "validation_error": "Bitte schreibe mindestens 10 Zeichen, damit ich dir helfen kann."
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "navbar": {
+    "brand": "Portfolio",
+    "home": "Domů",
+    "about": "O mně",
+    "skills": "Dovednosti",
+    "projects": "Projekty",
+    "contact": "Kontakt",
+    "admin": "Admin",
+    "lock": "Zamknout"
+  },
+  "hero": {
+    "badge": "Vítej v mém portfoliu",
+    "name": "Matyáš Odehnal",
+    "title": "Fullstack vývojář",
+    "description": "Tvořím věci pro lidi.",
+    "scroll": "Posuň dolů",
+    "visits": "NÁVŠTĚVY"
+  },
+  "about": {
+    "headline": "Hey! I'm Matyas Odehnal.",
+    "subheading": "Frontend developer focused on interactive UIs and modern web tooling.",
+    "text": "Jsem webový vývojář z Třebíče v České republice a baví mě vytvářet digitální řešení, která nejsou jen funkční, ale také intuitivní a radostná na používání.\n\nMá cesta k webovému vývoji začala fascinací technologiemi. Tato jiskra ve mně probudila neutuchající touhu osvojit si moderní technologie jako HTML, CSS, JavaScript a frameworky jako React, Vue či Tailwind.\n\nVěřím, že skvělý web vzniká kombinací promyšleného designu, čistého a efektivního kódu a opravdového porozumění potřebám uživatelů. Ať už jde o elegantní portfolio, dynamický e-shop nebo informační firemní web, ke každému projektu přistupuji s nasazením a závazkem doručit kvalitní a působivé výsledky.\n\nMimo programování si užívám hraní basketbalu a cestování.\n\nVždy se rád spojím a proberu, jak můžeme vaši digitální vizi proměnit ve skutečnost!",
+    "upload_prompt": "Upload your portrait via editing mode"
+  },
+  "services": {
+    "title": "Služby",
+    "cards": {
+      "web_design": {
+        "title": "1. Webdesign & UI/UX",
+        "bullets": [
+          "Návrh homepage (Figma nebo HTML prototyp)",
+          "UX konzultace - rozložení, flow, barvy",
+          "Responzivní zobrazení pro mobil/desktop"
+        ]
+      },
+      "custom_website": {
+        "title": "2. Vlastní web (vývoj)",
+        "bullets": [
+          "HTML, CSS, JavaScript (nebo React)",
+          "Responzivní pro mobil/tablet",
+          "Základní formuláře a jednoduché animace"
+        ]
+      },
+      "personal_brand": {
+        "title": "3. Osobní mini brand",
+        "bullets": [
+          "Jednoduché logo / ikona",
+          "Barevná paleta a typografie",
+          "Vizuální styl pro web / sociální sítě"
+        ]
+      },
+      "site_improvements": {
+        "title": "4. Vylepšení stávajícího webu",
+        "bullets": [
+          "Úpravy layoutu",
+          "Vylepšení mobilní verze",
+          "Přidání nových sekcí"
+        ]
+      },
+      "seo_performance": {
+        "title": "5. Základní SEO a výkon",
+        "bullets": [
+          "Meta tagy, nadpisy, struktura",
+          "Optimalizace obrázků",
+          "Základní analýza webu a doporučení"
+        ]
+      },
+      "consultation": {
+        "title": "6. Konzultace",
+        "bullets": [
+          "Plánování struktury webu",
+          "Volba technologií",
+          "Poradenství k UX/UI nebo obsahu"
+        ],
+        "note": "Prvních 20 minut zdarma"
+      }
+    }
+  },
+  "contact": {
+    "title": "Napište mi",
+    "description": "Momentálně přijímám nové nabídky — pošlete zprávu nebo mě kontaktujte na sociálních sítích.",
+    "name_placeholder": "Vaše jméno",
+    "email_placeholder": "Váš email (nepovinné)",
+    "message_placeholder": "Vaše zpráva",
+    "send": "Odeslat zprávu",
+    "sending": "Odesílám...",
+    "clear": "Vymazat",
+    "no_email": "Není nakonfigurován žádný email. Prosím kontaktujte mě přímo.",
+    "success": "Díky za zprávu! Ozvu se co nejdřív.",
+    "error": "Při odesílání se něco pokazilo. Zkuste to znovu nebo napište přímo emailem.",
+    "validation_error": "Napište prosím aspoň 10 znaků, ať vím, s čím vám pomoci."
+  }
+}

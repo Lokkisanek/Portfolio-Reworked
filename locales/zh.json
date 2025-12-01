@@ -1,0 +1,94 @@
+{
+  "navbar": {
+    "brand": "作品集",
+    "home": "首页",
+    "about": "关于我",
+    "skills": "技能",
+    "projects": "项目",
+    "contact": "联系",
+    "admin": "管理",
+    "lock": "锁定"
+  },
+  "hero": {
+    "badge": "欢迎来到我的作品集",
+    "name": "Matyáš Odehnal",
+    "title": "全栈开发者",
+    "description": "我为人们打造产品。",
+    "scroll": "向下滚动",
+    "visits": "访问次数"
+  },
+  "about": {
+    "headline": "Hey! I'm Matyas Odehnal.",
+    "subheading": "Frontend developer focused on interactive UIs and modern web tooling.",
+    "text": "我是一名来自捷克特热比奇的网页开发者，热衷于打造不仅功能完善，而且直观易用、令人愉悦的数字解决方案。\n\n我对技术的迷恋开启了我的网页开发之旅，这份火花让我不断深入掌握 HTML、CSS、JavaScript 以及 React、Vue、Tailwind 等现代框架。\n\n我相信，优秀的网站源于深思熟虑的设计、干净高效的代码，以及对用户需求的真切理解。无论是精致的作品集、充满活力的电商平台，还是信息丰富的企业站点，我都以专注和承诺投入其中，力求交付高质量且有影响力的成果。\n\n在编程之外，我喜欢打篮球和旅行。\n\n我始终期待与人交流，讨论如何帮助你把数字化愿景变为现实！",
+    "upload_prompt": "Upload your portrait via editing mode"
+  },
+  "services": {
+    "title": "服务",
+    "cards": {
+      "web_design": {
+        "title": "1. 网站设计与 UI/UX",
+        "bullets": [
+          "首页设计（Figma 或 HTML 原型）",
+          "UX 咨询 - 布局、流程、配色",
+          "移动/桌面自适应"
+        ]
+      },
+      "custom_website": {
+        "title": "2. 定制网站（开发）",
+        "bullets": [
+          "HTML、CSS、JavaScript（或 React）",
+          "移动/平板自适应",
+          "基础表单与简单动画"
+        ]
+      },
+      "personal_brand": {
+        "title": "3. 个人迷你品牌",
+        "bullets": [
+          "简洁 logo / 图标",
+          "配色方案与字体",
+          "网页/社交媒体视觉风格"
+        ]
+      },
+      "site_improvements": {
+        "title": "4. 现有网站改进",
+        "bullets": [
+          "版式调整",
+          "移动版优化",
+          "增加新板块"
+        ]
+      },
+      "seo_performance": {
+        "title": "5. 基础 SEO 与性能",
+        "bullets": [
+          "Meta 标签、标题、结构",
+          "图片优化",
+          "基础站点分析与建议"
+        ]
+      },
+      "consultation": {
+        "title": "6. 咨询",
+        "bullets": [
+          "站点结构规划",
+          "技术选型",
+          "UX/UI 或内容建议"
+        ],
+        "note": "前 20 分钟免费"
+      }
+    }
+  },
+  "contact": {
+    "title": "联系我",
+    "description": "我目前开放新的合作机会——欢迎发消息或通过社交媒体联系我。",
+    "name_placeholder": "你的名字",
+    "email_placeholder": "你的邮箱（可选）",
+    "message_placeholder": "你的留言",
+    "send": "发送消息",
+    "sending": "发送中...",
+    "clear": "清空",
+    "no_email": "尚未配置邮箱，请直接联系我。",
+    "success": "感谢你的留言！我会尽快回复。",
+    "error": "发送时出现问题，请重试或直接发邮件给我。",
+    "validation_error": "请至少输入 10 个字符，让我了解你的需求。"
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "navbar": {
+    "brand": "Portfolio",
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "contact": "Contact",
+    "admin": "Admin",
+    "lock": "Lock"
+  },
+  "hero": {
+    "badge": "Welcome to my portfolio",
+    "name": "Matyáš Odehnal",
+    "title": "Fullstack Developer",
+    "description": "I build things for people.",
+    "scroll": "Scroll Down",
+    "visits": "VISITS"
+  },
+  "about": {
+    "headline": "Hey! I'm Matyas Odehnal.",
+    "subheading": "Frontend developer focused on interactive UIs and modern web tooling.",
+    "text": "A web developer from Trebic, Czech Republic, I'm passionate about crafting digital solutions that are not just functional, but also intuitive and enjoyable to use.\n\nMy journey into web development began with my fascination with technology. This spark ignited a continuous drive to master modern technologies like HTML, CSS, JavaScript, and frameworks such as React, Vue, Tailwind.\n\nI believe a great website is born from a blend of thoughtful design, clean, efficient code, and a genuine understanding of user needs. Whether it's a sleek portfolio, a dynamic e-commerce platform, or an informative business site, I approach each project with dedication and a commitment to delivering high-quality, impactful results.\n\nBeyond coding, I enjoy playing basketball and travelling.\n\nI'm always excited to connect and discuss how I can help bring your digital vision to life!",
+    "upload_prompt": "Upload your portrait via editing mode"
+  },
+  "services": {
+    "title": "Services",
+    "cards": {
+      "web_design": {
+        "title": "1. Web Design & UI/UX",
+        "bullets": [
+          "Homepage design (Figma or HTML prototype)",
+          "UX consultation - layout, flow, colors",
+          "Responsive for mobile/desktop"
+        ]
+      },
+      "custom_website": {
+        "title": "2. Custom Website (development)",
+        "bullets": [
+          "HTML, CSS, JavaScript (or React)",
+          "Responsive for mobile/tablet",
+          "Basic forms & simple animations"
+        ]
+      },
+      "personal_brand": {
+        "title": "3. Personal Mini Brand",
+        "bullets": [
+          "Simple logo / icon",
+          "Color palette & typography",
+          "Visual style for web / social posts"
+        ]
+      },
+      "site_improvements": {
+        "title": "4. Existing Site Improvements",
+        "bullets": [
+          "Layout fixes",
+          "Mobile version improvements",
+          "Add new sections"
+        ]
+      },
+      "seo_performance": {
+        "title": "5. Basic SEO & Performance",
+        "bullets": [
+          "Meta tags, headings, structure",
+          "Image optimization",
+          "Basic site analysis & recommendations"
+        ]
+      },
+      "consultation": {
+        "title": "6. Consultation",
+        "bullets": [
+          "Site structure planning",
+          "Technology choice",
+          "UX/UI or content advice"
+        ],
+        "note": "First 20 minutes free"
+      }
+    }
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "description": "I'm currently open for new opportunities — send a message or reach me on social media.",
+    "name_placeholder": "Your name",
+    "email_placeholder": "Your email (optional)",
+    "message_placeholder": "Your message",
+    "send": "Send message",
+    "sending": "Sending...",
+    "clear": "Clear",
+    "no_email": "No email configured. Please contact me directly.",
+    "success": "Thanks for reaching out! I'll respond as soon as possible.",
+    "error": "Something went wrong while sending your message. Please try again or email me directly.",
+    "validation_error": "Please write at least 10 characters so I know how I can help."
+  }
+}

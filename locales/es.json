@@ -1,0 +1,94 @@
+{
+  "navbar": {
+    "brand": "Portfolio",
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "skills": "Habilidades",
+    "projects": "Proyectos",
+    "contact": "Contacto",
+    "admin": "Admin",
+    "lock": "Bloquear"
+  },
+  "hero": {
+    "badge": "Bienvenido a mi portafolio",
+    "name": "Matyáš Odehnal",
+    "title": "Desarrollador Fullstack",
+    "description": "Construyo cosas para la gente.",
+    "scroll": "Desplázate hacia abajo",
+    "visits": "VISITAS"
+  },
+  "about": {
+    "headline": "Hey! I'm Matyas Odehnal.",
+    "subheading": "Frontend developer focused on interactive UIs and modern web tooling.",
+    "text": "Soy un desarrollador web de Trebic, República Checa, apasionado por crear soluciones digitales que no solo sean funcionales, sino también intuitivas y agradables de usar.\n\nMi camino en el desarrollo web comenzó con mi fascinación por la tecnología. Esa chispa encendió un impulso constante por dominar tecnologías modernas como HTML, CSS, JavaScript y frameworks como React, Vue y Tailwind.\n\nCreo que un gran sitio web nace de una mezcla de diseño reflexivo, código limpio y eficiente, y una comprensión genuina de las necesidades de los usuarios. Ya sea un portafolio elegante, una plataforma de comercio electrónico dinámica o un sitio corporativo informativo, enfrento cada proyecto con dedicación y el compromiso de ofrecer resultados de alta calidad e impacto.\n\nFuera del código, disfruto jugar baloncesto y viajar.\n\nSiempre me entusiasma conectar y conversar sobre cómo puedo ayudar a dar vida a tu visión digital.",
+    "upload_prompt": "Upload your portrait via editing mode"
+  },
+  "services": {
+    "title": "Servicios",
+    "cards": {
+      "web_design": {
+        "title": "1. Diseño Web y UI/UX",
+        "bullets": [
+          "Diseño de homepage (Figma o prototipo HTML)",
+          "Consultoría UX - layout, flujo, colores",
+          "Responsive para móvil/escritorio"
+        ]
+      },
+      "custom_website": {
+        "title": "2. Sitio web a medida (desarrollo)",
+        "bullets": [
+          "HTML, CSS, JavaScript (o React)",
+          "Responsive para móvil/tablet",
+          "Formularios básicos y animaciones sencillas"
+        ]
+      },
+      "personal_brand": {
+        "title": "3. Mini marca personal",
+        "bullets": [
+          "Logo / ícono simple",
+          "Paleta de colores y tipografía",
+          "Estilo visual para web / redes sociales"
+        ]
+      },
+      "site_improvements": {
+        "title": "4. Mejoras del sitio existente",
+        "bullets": [
+          "Ajustes de layout",
+          "Mejoras de la versión móvil",
+          "Agregar nuevas secciones"
+        ]
+      },
+      "seo_performance": {
+        "title": "5. SEO básico y rendimiento",
+        "bullets": [
+          "Meta tags, encabezados, estructura",
+          "Optimización de imágenes",
+          "Análisis básico del sitio y recomendaciones"
+        ]
+      },
+      "consultation": {
+        "title": "6. Consultoría",
+        "bullets": [
+          "Planificación de la estructura del sitio",
+          "Elección de tecnología",
+          "Asesoría en UX/UI o contenido"
+        ],
+        "note": "Primeros 20 minutos gratis"
+      }
+    }
+  },
+  "contact": {
+    "title": "Ponte en contacto",
+    "description": "Actualmente estoy abierto a nuevas oportunidades — envíame un mensaje o encuéntrame en redes sociales.",
+    "name_placeholder": "Tu nombre",
+    "email_placeholder": "Tu correo (opcional)",
+    "message_placeholder": "Tu mensaje",
+    "send": "Enviar mensaje",
+    "sending": "Enviando...",
+    "clear": "Limpiar",
+    "no_email": "No hay correo configurado. Contáctame directamente.",
+    "success": "¡Gracias por tu mensaje! Te responderé pronto.",
+    "error": "Algo salió mal al enviar. Vuelve a intentarlo o escríbeme directamente por correo.",
+    "validation_error": "Escribe al menos 10 caracteres para contarme cómo puedo ayudarte."
+  }
+}

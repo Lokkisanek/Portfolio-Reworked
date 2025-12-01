@@ -1,105 +1,98 @@
 "use client";
 
-import React from 'react'
+import React from 'react';
+import type enLocale from '@/locales/en.json';
+import { useLocale } from '@/context/LocaleContext';
+import { defaultLocale } from '@/lib/i18n';
+import { getLocaleBundle } from '@/lib/translate';
 
-type Service = {
-  id: number
-  title: string
-  priceText: string
-  price: number | null
-  bullets: string[]
-  note?: string
-}
+type ServicesLocale = typeof enLocale.services;
+type ServiceCardKey = keyof ServicesLocale['cards'];
 
-const services: Service[] = [
-  {
-    id: 1,
-    title: '1. Web Design & UI/UX',
-    priceText: 'From 1 500 CZK',
-    price: 1500,
-    bullets: ['Homepage design (Figma or HTML prototype)', 'UX consultation — layout, flow, colors', 'Responsive for mobile/desktop'],
-  },
-  {
-    id: 2,
-    title: '2. Custom Website (development)',
-    priceText: 'From 3 000 CZK',
-    price: 3000,
-    bullets: ['HTML, CSS, JavaScript (or React)', 'Responsive for mobile/tablet', 'Basic forms & simple animations'],
-  },
-  {
-    id: 3,
-    title: '3. Personal Mini Brand',
-    priceText: 'From 2 000 CZK',
-    price: 2000,
-    bullets: ['Simple logo / icon', 'Color palette & typography', 'Visual style for web / social posts'],
-  },
-  {
-    id: 4,
-    title: '4. Existing Site Improvements',
-    priceText: 'From 500 CZK / task',
-    price: 500,
-    bullets: ['Layout fixes', 'Mobile version improvements', 'Add new sections'],
-  },
-  {
-    id: 5,
-    title: '5. Basic SEO & Performance',
-    priceText: 'From 800 CZK',
-    price: 800,
-    bullets: ['Meta tags, headings, structure', 'Image optimization', 'Basic site analysis & recommendations'],
-  },
-  {
-    id: 6,
-    title: '6. Consultation',
-    priceText: 'Free (20 min) / then 300 CZK / 30 min',
-    price: 300,
-    bullets: ['Site structure planning', 'Technology choice', 'UX/UI or content advice'],
-    note: 'First 20 minutes free',
-  },
-]
+type ServiceConfig = {
+  id: number;
+  key: ServiceCardKey;
+  price: number | null;
+};
+
+const serviceOrder: ServiceConfig[] = [
+  { id: 1, key: 'web_design', price: 1500 },
+  { id: 2, key: 'custom_website', price: 3000 },
+  { id: 3, key: 'personal_brand', price: 2000 },
+  { id: 4, key: 'site_improvements', price: 500 },
+  { id: 5, key: 'seo_performance', price: 800 },
+  { id: 6, key: 'consultation', price: 300 },
+];
 
 function formatCZK(n: number) {
-  return n.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ' ')+ ' Kč'
+  return n.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ' ') + ' Kč';
+}
+
+const CZK_TO_EUR = 0.04; // ~1 EUR = 25 CZK, adjust if needed
+
+function formatEURFromCZK(czk: number) {
+  const eur = Math.round(czk * CZK_TO_EUR);
+  return new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 0,
+  }).format(eur);
 }
 
 export default function Services() {
+  const { locale } = useLocale();
+  const servicesBundle = getLocaleBundle(locale).services ?? getLocaleBundle(defaultLocale).services;
+
   return (
     <section id="services" className="py-12 px-6 sm:px-8 lg:px-16 text-white">
       <div className="max-w-6xl mx-auto">
         <div className="bg-transparent">
-          <h2 className="text-center text-3xl sm:text-4xl font-extrabold text-white mb-8">Services</h2>
+          <h2 className="text-center text-3xl sm:text-4xl font-extrabold text-white mb-8">
+            {servicesBundle.title}
+          </h2>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s) => {
-              const discounted = s.price ? Math.round(s.price * 0.8) : null
-              const priceLabel = discounted ? `${formatCZK(discounted)}` : s.priceText
+            {serviceOrder.map((service) => {
+              const localizedCard = servicesBundle.cards[service.key];
+              if (!localizedCard) return null;
+              const discounted = service.price ? Math.round(service.price * 0.8) : null;
+              const priceLabelCZK = discounted ? formatCZK(discounted) : '';
+              const priceLabelEUR = discounted ? formatEURFromCZK(discounted) : null;
+
+              const note = 'note' in localizedCard ? localizedCard.note : undefined;
+
               return (
-                <article key={s.id} className="p-6 rounded-xl bg-slate-900/30 border border-slate-800 hover:border-slate-700 transition">
+                <article
+                  key={service.id}
+                  className="p-6 rounded-xl bg-slate-900/30 border border-slate-800 hover:border-slate-700 transition"
+                >
                   <div className="flex flex-col">
-                    <h3 className="text-lg font-semibold mb-2">{s.title}</h3>
+                    <h3 className="text-lg font-semibold mb-2">{localizedCard.title}</h3>
 
                     <div className="mb-4">
                       <div className="mt-1">
-                        <span className="text-indigo-300 text-xl font-bold">{priceLabel}</span>
+                        <span className="text-indigo-300 text-xl font-bold">{priceLabelCZK}</span>
                       </div>
+                      {priceLabelEUR && <div className="text-sm text-slate-300 mt-1">{priceLabelEUR}</div>}
                     </div>
 
                     <ul className="mb-4 space-y-2 text-sm text-slate-200">
-                      {s.bullets.map((b, i) => (
+                      {localizedCard.bullets.map((bullet, i) => (
                         <li key={i} className="flex items-start gap-3">
                           <span className="mt-1 text-green-400">✓</span>
-                          <span>{b}</span>
+                          <span>{bullet}</span>
                         </li>
                       ))}
                     </ul>
 
-                    {s.note && <div className="text-xs text-slate-400">{s.note}</div>}
+                    {note && <div className="text-xs text-slate-400">{note}</div>}
                   </div>
                 </article>
-              )
+              );
             })}
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

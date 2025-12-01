@@ -30,6 +30,19 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment Variables
+
+Copy `.env.example` to `.env.local` and fill in the values before running the production build:
+
+| Variable | Description |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL used in metadata / OG tags. |
+| `RESEND_API_KEY` | API key for [Resend](https://resend.com) email delivery. Optional but required for live contact emails. |
+| `CONTACT_TO_EMAIL` | Destination email address for contact form submissions. |
+| `CONTACT_FROM_EMAIL` | Verified sender (e.g. `"Portfolio Contact <hello@yourdomain.com>"`). |
+
+If `RESEND_API_KEY` or `CONTACT_TO_EMAIL` are missing, messages are saved locally to `data/contact-messages.json` (only available in non-serverless environments) and the API will respond with guidance to configure email delivery.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

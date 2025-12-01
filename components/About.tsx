@@ -6,6 +6,9 @@ import EditableText from '@/components/EditableText';
 import { useEdit } from '@/context/EditContext';
 import { Clock, MapPin, Sparkles, type LucideIcon } from 'lucide-react';
 import TypeAppear from '@/components/TypeAppear';
+import { useLocale } from '@/context/LocaleContext';
+import { defaultLocale } from '@/lib/i18n';
+import { t } from '@/lib/translate';
 
 type InfoCardProps = {
     icon: LucideIcon;
@@ -32,6 +35,15 @@ function InfoCard({ icon: Icon, label, children }: InfoCardProps) {
 
 export default function About() {
     const { content, isEditing } = useEdit();
+    const { locale } = useLocale();
+    const isDefaultLocale = locale === defaultLocale;
+
+    const localized = (value: string | undefined, key: string) => {
+        if (isDefaultLocale) {
+            return value && value.trim().length > 0 ? value : t(key, locale);
+        }
+        return t(key, locale);
+    };
     const rawPhoto = (content?.about?.photo as string | undefined)?.trim();
     // Normalize photo path for next/image:
     // - allow 'me.jpg' or '/me.jpg' (served from public/)
@@ -63,7 +75,7 @@ export default function About() {
                     />
                 ) : (
                     <TypeAppear
-                        text={(content?.about?.headline as string | undefined) ?? 'Hey! Im Matyas Odehnal.'}
+                        text={localized(content?.about?.headline as string | undefined, 'about.headline')}
                         className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight text-white"
                     />
                 )}
@@ -74,23 +86,36 @@ export default function About() {
               
 
                 <div className="space-y-4 pt-8">
-                    <EditableText
-                        section="about"
-                        field="subheading"
-                        as="p"
-                        className="max-w-2xl text-base sm:text-lg text-white/70"
-                    />
+                    {isEditing ? (
+                        <EditableText
+                            section="about"
+                            field="subheading"
+                            as="p"
+                            className="max-w-2xl text-base sm:text-lg text-white/70"
+                        />
+                    ) : (
+                        <p className="max-w-2xl text-base sm:text-lg text-white/70">
+                            {localized(content?.about?.subheading as string | undefined, 'about.subheading')}
+                        </p>
+                    )}
                 </div>
 
                 <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 sm:p-8 shadow-[0_35px_120px_rgba(15,23,42,0.35)]">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-purple-500/10 opacity-70" />
                     <div className="relative">
-                        <EditableText
-                            section="about"
-                            field="text"
-                            as="p"
-                            className="text-base leading-relaxed text-white/75 whitespace-pre-line"
-                        />
+                        {isEditing ? (
+                            <EditableText
+                                section="about"
+                                field="text"
+                                as="p"
+                                className="text-base leading-relaxed text-white/75 whitespace-pre-line"
+                                multiline
+                            />
+                        ) : (
+                            <p className="text-base leading-relaxed text-white/75 whitespace-pre-line">
+                                {localized(content?.about?.text as string | undefined, 'about.text')}
+                            </p>
+                        )}
                     </div>
                 </div>
 
@@ -112,7 +137,7 @@ export default function About() {
                             />
                         ) : (
                             <div className="flex aspect-[3/4] items-center justify-center bg-gradient-to-br from-slate-900/70 via-slate-800/80 to-slate-900/70 text-center text-sm text-white/60">
-                                Upload your portrait via editing mode
+                                {t('about.upload_prompt', locale)}
                             </div>
                         )}
                     </div>

@@ -8,7 +8,8 @@ import {
   useState,
   type CSSProperties,
   type PropsWithChildren,
-  type RefObject
+  type RefObject,
+  type ReactElement
 } from 'react';
 import styles from './GradualBlur.module.css';
 
@@ -178,7 +179,7 @@ const useResponsiveDimension = (
   return responsive ? value : config[key];
 };
 
-const useIntersectionObserver = (ref: RefObject<HTMLElement>, shouldObserve: boolean) => {
+const useIntersectionObserver = (ref: RefObject<HTMLElement | null>, shouldObserve: boolean) => {
   const [isVisible, setIsVisible] = useState(!shouldObserve);
 
   useEffect(() => {
@@ -210,7 +211,7 @@ function GradualBlurBase(props: GradualBlurProps) {
   const isVisible = useIntersectionObserver(containerRef, observeIntersection);
 
   const blurDivs = useMemo(() => {
-    const result: JSX.Element[] = [];
+    const result: ReactElement[] = [];
     const increment = 100 / config.divCount;
     const currentStrength =
       isHovered && config.hoverIntensity ? config.strength * config.hoverIntensity : config.strength;
@@ -327,11 +328,12 @@ function GradualBlurBase(props: GradualBlurProps) {
 }
 
 type GradualBlurComponentType = typeof GradualBlurBase & {
+  displayName?: string;
   PRESETS: typeof PRESETS;
   CURVE_FUNCTIONS: typeof CURVE_FUNCTIONS;
 };
 
-const GradualBlur = memo(GradualBlurBase) as GradualBlurComponentType;
+const GradualBlur = memo(GradualBlurBase) as unknown as GradualBlurComponentType;
 
 GradualBlur.displayName = 'GradualBlur';
 GradualBlur.PRESETS = PRESETS;

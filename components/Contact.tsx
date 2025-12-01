@@ -1,67 +1,130 @@
 'use client';
 
-import EditableText from '@/components/EditableText';
 import { useEdit } from '@/context/EditContext';
 import { useState } from 'react';
+import { useLocale } from '@/context/LocaleContext';
+import { t } from '@/lib/translate';
 
 export default function Contact() {
     const { content } = useEdit();
     const { contact } = content;
+    const { locale } = useLocale();
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [serverMessage, setServerMessage] = useState<string | null>(null);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const to = contact?.email || '';
-        const subject = encodeURIComponent(`Website contact from ${name || 'visitor'}`);
-        const body = encodeURIComponent(`${message}\n\nFrom: ${name}${email ? ` (${email})` : ''}`);
-        if (to) {
-            window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-        } else {
-            alert('No email configured. Please contact me directly.');
+        if (!message || message.trim().length < 10) {
+            setStatus('error');
+            setServerMessage(t('contact.validation_error', locale));
+            return;
+        }
+
+        try {
+            setStatus('loading');
+            setServerMessage(null);
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name, email, message })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data?.success) {
+                throw new Error(data?.message || 'Unable to send message');
+            }
+
+            setStatus('success');
+            setServerMessage(data?.message || t('contact.success', locale));
+            setName('');
+            setEmail('');
+            setMessage('');
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : null;
+            setStatus('error');
+            setServerMessage(errorMessage || t('contact.error', locale));
         }
     };
+    const isLoading = status === 'loading';
+    const feedback = status === 'success'
+        ? serverMessage || t('contact.success', locale)
+        : status === 'error'
+            ? serverMessage || t('contact.error', locale)
+            : null;
 
     return (
         <div className="text-white text-center space-y-8">
-            <div className="space-y-3">
-                <h2 className="text-3xl md:text-4xl font-bold">Get In Touch</h2>
-                <p className="text-lg text-gray-300">I'm currently open for new opportunities — send a message or reach me on social media.</p>
+                <div className="space-y-3">
+                <h2 className="text-3xl md:text-4xl font-bold">{t('contact.title', locale)}</h2>
+                <p className="text-lg text-gray-300">{t('contact.description', locale)}</p>
             </div>
 
             <div className="flex flex-col items-center space-y-6">
-                <form onSubmit={handleSubmit} className="w-full max-w-xl space-y-3">
+                <form onSubmit={handleSubmit} className="w-full max-w-xl space-y-3" noValidate>
                     <div className="flex flex-col md:flex-row md:space-x-3">
                         <input
-                            aria-label="Your name"
+                            aria-label={t('contact.name_placeholder', locale)}
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="Your name"
+                            placeholder={t('contact.name_placeholder', locale)}
                             className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder-gray-400"
+                            disabled={isLoading}
                         />
                         <input
-                            aria-label="Your email"
+                            aria-label={t('contact.email_placeholder', locale)}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Your email (optional)"
+                            placeholder={t('contact.email_placeholder', locale)}
+                            type="email"
                             className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder-gray-400 mt-2 md:mt-0"
+                            disabled={isLoading}
                         />
                     </div>
 
                     <textarea
-                        aria-label="Message"
+                        aria-label={t('contact.message_placeholder', locale)}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Your message"
+                        placeholder={t('contact.message_placeholder', locale)}
                         className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder-gray-400 min-h-[110px]"
+                        minLength={10}
+                        required
+                        disabled={isLoading}
                     />
 
                     <div className="flex items-center justify-center space-x-3">
-                        <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Send message</button>
-                        <button type="button" onClick={() => { setName(''); setEmail(''); setMessage(''); }} className="bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded">Clear</button>
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded"
+                        >
+                            {isLoading ? t('contact.sending', locale) : t('contact.send', locale)}
+                        </button>
+                        <button
+                            type="button"
+                            disabled={isLoading}
+                            onClick={() => { setName(''); setEmail(''); setMessage(''); setStatus('idle'); setServerMessage(null); }}
+                            className="bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded"
+                        >
+                            {t('contact.clear', locale)}
+                        </button>
                     </div>
+
+                    {feedback && (
+                        <p
+                            className={`text-sm ${status === 'success' ? 'text-emerald-300' : 'text-rose-300'}`}
+                            role="status"
+                        >
+                            {feedback}
+                        </p>
+                    )}
                 </form>
 
                 <div className="space-y-2 text-center">

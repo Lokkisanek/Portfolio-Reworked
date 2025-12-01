@@ -1,0 +1,94 @@
+{
+  "navbar": {
+    "brand": "Portfólio",
+    "home": "Início",
+    "about": "Sobre mim",
+    "skills": "Habilidades",
+    "projects": "Projetos",
+    "contact": "Contato",
+    "admin": "Admin",
+    "lock": "Bloquear"
+  },
+  "hero": {
+    "badge": "Bem-vindo ao meu portfólio",
+    "name": "Matyáš Odehnal",
+    "title": "Desenvolvedor Fullstack",
+    "description": "Construo coisas para as pessoas.",
+    "scroll": "Role para baixo",
+    "visits": "VISITAS"
+  },
+  "about": {
+    "headline": "Hey! I'm Matyas Odehnal.",
+    "subheading": "Frontend developer focused on interactive UIs and modern web tooling.",
+    "text": "Sou um desenvolvedor web de Trebic, na República Tcheca, apaixonado por criar soluções digitais que não sejam apenas funcionais, mas também intuitivas e agradáveis de usar.\n\nMinha jornada no desenvolvimento web começou com minha fascinação por tecnologia. Essa faísca despertou um impulso constante para dominar tecnologias modernas como HTML, CSS, JavaScript e frameworks como React, Vue e Tailwind.\n\nAcredito que um ótimo site nasce da combinação de um design bem pensado, código limpo e eficiente e uma compreensão genuína das necessidades dos usuários. Seja um portfólio elegante, uma plataforma de e-commerce dinâmica ou um site corporativo informativo, trato cada projeto com dedicação e compromisso em entregar resultados de alta qualidade e impacto.\n\nFora do código, gosto de jogar basquete e viajar.\n\nEstou sempre animado para conversar e descobrir como posso ajudar a dar vida à sua visão digital!",
+    "upload_prompt": "Upload your portrait via editing mode"
+  },
+  "services": {
+    "title": "Serviços",
+    "cards": {
+      "web_design": {
+        "title": "1. Web Design & UI/UX",
+        "bullets": [
+          "Design da homepage (Figma ou protótipo HTML)",
+          "Consultoria de UX - layout, fluxo, cores",
+          "Responsivo para mobile/desktop"
+        ]
+      },
+      "custom_website": {
+        "title": "2. Site sob medida (desenvolvimento)",
+        "bullets": [
+          "HTML, CSS, JavaScript (ou React)",
+          "Responsivo para mobile/tablet",
+          "Formulários básicos e animações simples"
+        ]
+      },
+      "personal_brand": {
+        "title": "3. Mini marca pessoal",
+        "bullets": [
+          "Logo / ícone simples",
+          "Paleta de cores e tipografia",
+          "Estilo visual para web / redes sociais"
+        ]
+      },
+      "site_improvements": {
+        "title": "4. Melhorias em site existente",
+        "bullets": [
+          "Correções de layout",
+          "Melhorias na versão mobile",
+          "Adicionar novas seções"
+        ]
+      },
+      "seo_performance": {
+        "title": "5. SEO básico e performance",
+        "bullets": [
+          "Meta tags, headings, estrutura",
+          "Otimização de imagens",
+          "Análise básica do site e recomendações"
+        ]
+      },
+      "consultation": {
+        "title": "6. Consultoria",
+        "bullets": [
+          "Planejamento da estrutura do site",
+          "Escolha de tecnologia",
+          "Orientação em UX/UI ou conteúdo"
+        ],
+        "note": "Primeiros 20 minutos grátis"
+      }
+    }
+  },
+  "contact": {
+    "title": "Fale comigo",
+    "description": "Estou aberto a novas oportunidades — envie uma mensagem ou me encontre nas redes sociais.",
+    "name_placeholder": "Seu nome",
+    "email_placeholder": "Seu e-mail (opcional)",
+    "message_placeholder": "Sua mensagem",
+    "send": "Enviar mensagem",
+    "sending": "Enviando...",
+    "clear": "Limpar",
+    "no_email": "Nenhum e-mail configurado. Fale comigo diretamente.",
+    "success": "Obrigado pela mensagem! Vou responder em breve.",
+    "error": "Algo deu errado no envio. Tente novamente ou mande um e-mail diretamente.",
+    "validation_error": "Escreva pelo menos 10 caracteres para eu entender como posso ajudar."
+  }
+}

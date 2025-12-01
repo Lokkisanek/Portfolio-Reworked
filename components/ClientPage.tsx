@@ -57,7 +57,7 @@ function ClientPageContent() {
                 className="pointer-events-none"
             />
             <main className="bg-transparent min-h-screen text-white selection:bg-blue-500/30 relative z-10">
-                {/* <Navbar /> */}
+                {/* Navbar intentionally hidden; language selector moved to FloatingDock */}
                 <FloatingDock />
                 <Hero />
                 <SectionBlock id="about">

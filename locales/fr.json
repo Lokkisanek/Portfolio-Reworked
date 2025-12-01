@@ -79,7 +79,7 @@
   },
   "contact": {
     "title": "Contacte-moi",
-    "description": "Je suis disponible pour de nouvelles opportunités — envoie-moi un message ou retrouve-moi sur les réseaux sociaux.",
+    "description": "Copie mon e-mail ci-dessous ou retrouve-moi sur les réseaux sociaux.",
     "name_placeholder": "Ton nom",
     "email_placeholder": "Ton e-mail (optionnel)",
     "message_placeholder": "Ton message",
@@ -89,6 +89,11 @@
     "no_email": "Aucun e-mail configuré. Contacte-moi directement.",
     "success": "Merci pour ton message ! Je te réponds très vite.",
     "error": "Une erreur est survenue lors de l'envoi. Réessaie ou écris-moi directement par e-mail.",
-    "validation_error": "Écris au moins 10 caractères pour m'expliquer comment je peux aider."
+    "validation_error": "Écris au moins 10 caractères pour m'expliquer comment je peux aider.",
+    "direct_email_label": "Adresse e-mail",
+    "copy_email": "Copier l'e-mail",
+    "open_email_client": "Ouvrir le client e-mail",
+    "copy_success": "E-mail copié !",
+    "copy_error": "Échec de la copie. Copiez manuellement."
   }
 }

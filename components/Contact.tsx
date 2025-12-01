@@ -1,139 +1,114 @@
 'use client';
 
 import { useEdit } from '@/context/EditContext';
-import { useState } from 'react';
 import { useLocale } from '@/context/LocaleContext';
 import { t } from '@/lib/translate';
+import { useEffect, useState } from 'react';
 
 export default function Contact() {
     const { content } = useEdit();
     const { contact } = content;
     const { locale } = useLocale();
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [message, setMessage] = useState('');
-    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-    const [serverMessage, setServerMessage] = useState<string | null>(null);
+    const emailAddress = contact.email || '';
+    const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'error'>('idle');
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!message || message.trim().length < 10) {
-            setStatus('error');
-            setServerMessage(t('contact.validation_error', locale));
+    useEffect(() => {
+        setCopyStatus('idle');
+    }, [emailAddress]);
+
+    const copyEmail = async () => {
+        if (!emailAddress) {
+            setCopyStatus('error');
             return;
         }
 
         try {
-            setStatus('loading');
-            setServerMessage(null);
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name, email, message })
-            });
+            if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(emailAddress);
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = emailAddress;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'absolute';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                const success = document.execCommand('copy');
+                document.body.removeChild(textarea);
 
-            const data = await response.json();
-
-            if (!response.ok || !data?.success) {
-                throw new Error(data?.message || 'Unable to send message');
+                if (!success) {
+                    throw new Error('execCommand failed');
+                }
             }
 
-            setStatus('success');
-            setServerMessage(data?.message || t('contact.success', locale));
-            setName('');
-            setEmail('');
-            setMessage('');
-        } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : null;
-            setStatus('error');
-            setServerMessage(errorMessage || t('contact.error', locale));
+            setCopyStatus('copied');
+        } catch (error) {
+            console.error('Failed to copy email', error);
+            setCopyStatus('error');
         }
     };
-    const isLoading = status === 'loading';
-    const feedback = status === 'success'
-        ? serverMessage || t('contact.success', locale)
-        : status === 'error'
-            ? serverMessage || t('contact.error', locale)
-            : null;
+
+    const feedback =
+        copyStatus === 'copied'
+            ? t('contact.copy_success', locale)
+            : copyStatus === 'error'
+                ? t('contact.copy_error', locale)
+                : null;
 
     return (
         <div className="text-white text-center space-y-8">
-                <div className="space-y-3">
+            <div className="space-y-3">
                 <h2 className="text-3xl md:text-4xl font-bold">{t('contact.title', locale)}</h2>
                 <p className="text-lg text-gray-300">{t('contact.description', locale)}</p>
             </div>
 
             <div className="flex flex-col items-center space-y-6">
-                <form onSubmit={handleSubmit} className="w-full max-w-xl space-y-3" noValidate>
-                    <div className="flex flex-col md:flex-row md:space-x-3">
-                        <input
-                            aria-label={t('contact.name_placeholder', locale)}
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder={t('contact.name_placeholder', locale)}
-                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder-gray-400"
-                            disabled={isLoading}
-                        />
-                        <input
-                            aria-label={t('contact.email_placeholder', locale)}
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            placeholder={t('contact.email_placeholder', locale)}
-                            type="email"
-                            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder-gray-400 mt-2 md:mt-0"
-                            disabled={isLoading}
-                        />
+                <div className="w-full max-w-xl space-y-4">
+                    <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-5 text-left">
+                        <div className="text-xs uppercase tracking-[0.3em] text-blue-200/70">
+                            {t('contact.direct_email_label', locale)}
+                        </div>
+                        <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <code className="rounded-lg bg-black/40 px-3 py-2 text-sm text-blue-100">
+                                {emailAddress || t('contact.no_email', locale)}
+                            </code>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    type="button"
+                                    onClick={copyEmail}
+                                    className="rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-600 disabled:opacity-60"
+                                    disabled={!emailAddress}
+                                >
+                                    {t('contact.copy_email', locale)}
+                                </button>
+                                {emailAddress && (
+                                    <a
+                                        href={`mailto:${emailAddress}`}
+                                        className="rounded-md border border-white/15 bg-white/5 px-4 py-2 text-sm text-white transition hover:bg-white/10"
+                                    >
+                                        {t('contact.open_email_client', locale)}
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                        {feedback && (
+                            <p
+                                className={`mt-3 text-sm ${copyStatus === 'copied' ? 'text-emerald-300' : 'text-rose-300'}`}
+                                role="status"
+                            >
+                                {feedback}
+                            </p>
+                        )}
                     </div>
-
-                    <textarea
-                        aria-label={t('contact.message_placeholder', locale)}
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder={t('contact.message_placeholder', locale)}
-                        className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder-gray-400 min-h-[110px]"
-                        minLength={10}
-                        required
-                        disabled={isLoading}
-                    />
-
-                    <div className="flex items-center justify-center space-x-3">
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="bg-blue-500 hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded"
-                        >
-                            {isLoading ? t('contact.sending', locale) : t('contact.send', locale)}
-                        </button>
-                        <button
-                            type="button"
-                            disabled={isLoading}
-                            onClick={() => { setName(''); setEmail(''); setMessage(''); setStatus('idle'); setServerMessage(null); }}
-                            className="bg-white/5 hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded"
-                        >
-                            {t('contact.clear', locale)}
-                        </button>
-                    </div>
-
-                    {feedback && (
-                        <p
-                            className={`text-sm ${status === 'success' ? 'text-emerald-300' : 'text-rose-300'}`}
-                            role="status"
-                        >
-                            {feedback}
-                        </p>
-                    )}
-                </form>
+                </div>
 
                 <div className="space-y-2 text-center">
                     <div className="text-sm text-gray-400">Or find me on</div>
                     <div className="flex items-center justify-center space-x-3">
                         <a href="https://github.com/Lokkisanek" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-3 py-2 bg-white/5 hover:bg-white/10 rounded">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                                <path d="M12 .5C5.73.5.75 5.48.75 11.77c0 4.93 3.2 9.1 7.64 10.57.56.1.76-.24.76-.54 0-.26-.01-1-.02-1.95-3.11.68-3.77-1.5-3.77-1.5-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .17 1.55.94 1.55.94 1 . +" stroke="currentColor" strokeWidth="0"/>
-                                <path d="M12 2.5c-5.24 0-9.5 4.26-9.5 9.5 0 4.2 2.74 7.75 6.54 9.01.48.09.66-.21.66-.47 0-.23-.01-.84-.01-1.65-2.66.58-3.22-1.28-3.22-1.28-.43-1.08-1.05-1.37-1.05-1.37-.86-.59.07-.58.07-.58.95.07 1.45.98 1.45.98.84 1.44 2.2 1.02 2.73.78.08-.6.33-1.02.6-1.25-2.12-.24-4.35-1.06-4.35-4.72 0-1.04.37-1.88.98-2.55-.1-.24-.43-1.22.09-2.54 0 0 .79-.25 2.6.97.75-.21 1.55-.31 2.35-.31.8 0 1.6.1 2.35.31 1.81-1.22 2.6-.97 2.6-.97.52 1.32.19 2.3.09 2.54.61.67.98 1.51.98 2.55 0 3.67-2.24 4.48-4.37 4.71.34.29.64.85.64 1.72 0 1.24-.01 2.24-.01 2.55 0 .26.18.57.67.47C20.76 19.75 23.5 16.2 23.5 12c0-5.24-4.26-9.5-9.5-9.5z" fill="currentColor"/>
+                                <path d="M12 .5C5.73.5.75 5.48.75 11.77c0 4.93 3.2 9.1 7.64 10.57.56.1.76-.24.76-.54 0-.26-.01-1-.02-1.95-3.11.68-3.77-1.5-3.77-1.5-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 .17 1.55.94 1.55.94 1 .17 1.55-.94 1.55-.94s.59-1.08 1.72-1.16c0 0 1.1-.01.08.69 0 0-.74.35-1.25 1.65 0 0-.66 2.18-3.77 1.5.01.95.02 1.69.02 1.95 0 .3-.2.64-.76.54 4.44-1.47 7.64-5.64 7.64-10.57C23.25 5.48 18.27.5 12 .5z" fill="currentColor"/>
                             </svg>
                             <span className="text-sm">GitHub</span>
                         </a>
@@ -155,8 +130,6 @@ export default function Contact() {
                             </svg>
                             <span className="text-sm">LinkedIn</span>
                         </a>
-
-                        {/* Project Union moved to Featured Projects */}
                     </div>
                 </div>
             </div>

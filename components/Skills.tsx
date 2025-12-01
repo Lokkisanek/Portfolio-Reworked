@@ -6,6 +6,7 @@ import SpotlightCard from '@/components/ui/SpotlightCard';
 import MotionWrapper from '@/components/ui/MotionWrapper';
 import * as Icons from 'lucide-react';
 import TechIcons from '@/components/icons/TechIcons';
+import { IconType } from 'react-icons';
 
 export default function Skills() {
     const { content } = useEdit();
@@ -18,10 +19,27 @@ export default function Skills() {
         JavaScript: 5,
         React: 5,
         Nodejs: 4,
+        'Node.js': 4,
         Node: 4,
         Laravel: 3,
         Bootstrap: 4,
         Canva: 3
+    };
+
+    const brandColors: Record<string, string> = {
+        Html5: '#E34F26',
+        HTML5: '#E34F26',
+        Css3: '#1572B6',
+        CSS3: '#1572B6',
+        Javascript: '#F7DF1E',
+        JavaScript: '#F7DF1E',
+        React: '#61DAFB',
+        Nodejs: '#339933',
+        'Node.js': '#339933',
+        Node: '#339933',
+        Canva: '#00C4CC',
+        Laravel: '#FF2D20',
+        Bootstrap: '#7952B3'
     };
 
     return (
@@ -35,7 +53,8 @@ export default function Skills() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {skills.map((skill: any, index: number) => {
                     const key = (skill.icon || skill.name || index).toString();
-                    const Custom = TechIcons[skill.icon];
+                    const Custom: IconType | undefined =
+                        TechIcons[skill.icon] || TechIcons[skill.name];
                     // @ts-ignore
                     const Lucide = Icons[skill.icon] || Icons.Code;
                     const level = skill.level ?? proficiencyMap[skill.name] ?? proficiencyMap[skill.icon] ?? 3;
@@ -47,7 +66,11 @@ export default function Skills() {
                                     <div className="relative">
                                         <div className="w-24 h-24 rounded-full bg-gradient-to-b from-white/6 to-white/3 border border-white/6 flex items-center justify-center shadow-md transition-transform group-hover:scale-105">
                                             {Custom ? (
-                                                <Custom width={46} height={46} />
+                                                <Custom
+                                                    size={46}
+                                                    color={brandColors[skill.icon] || brandColors[skill.name] || '#F8FAFC'}
+                                                    aria-hidden
+                                                />
                                             ) : (
                                                 // @ts-ignore
                                                 <Lucide size={36} className="text-gray-200" />

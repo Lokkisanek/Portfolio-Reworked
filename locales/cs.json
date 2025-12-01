@@ -79,7 +79,7 @@
   },
   "contact": {
     "title": "Napište mi",
-    "description": "Momentálně přijímám nové nabídky — pošlete zprávu nebo mě kontaktujte na sociálních sítích.",
+    "description": "Zkopírujte můj e-mail níže nebo mě kontaktujte na sociálních sítích.",
     "name_placeholder": "Vaše jméno",
     "email_placeholder": "Váš email (nepovinné)",
     "message_placeholder": "Vaše zpráva",
@@ -89,6 +89,11 @@
     "no_email": "Není nakonfigurován žádný email. Prosím kontaktujte mě přímo.",
     "success": "Díky za zprávu! Ozvu se co nejdřív.",
     "error": "Při odesílání se něco pokazilo. Zkuste to znovu nebo napište přímo emailem.",
-    "validation_error": "Napište prosím aspoň 10 znaků, ať vím, s čím vám pomoci."
+    "validation_error": "Napište prosím aspoň 10 znaků, ať vím, s čím vám pomoci.",
+    "direct_email_label": "E-mailová adresa",
+    "copy_email": "Zkopírovat e-mail",
+    "open_email_client": "Otevřít e-mail",
+    "copy_success": "E-mail zkopírován do schránky!",
+    "copy_error": "Kopírování selhalo. Zkuste to prosím ručně."
   }
 }

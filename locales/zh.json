@@ -79,7 +79,7 @@
   },
   "contact": {
     "title": "联系我",
-    "description": "我目前开放新的合作机会——欢迎发消息或通过社交媒体联系我。",
+    "description": "复制下方邮箱，或在社交媒体找到我。",
     "name_placeholder": "你的名字",
     "email_placeholder": "你的邮箱（可选）",
     "message_placeholder": "你的留言",
@@ -89,6 +89,11 @@
     "no_email": "尚未配置邮箱，请直接联系我。",
     "success": "感谢你的留言！我会尽快回复。",
     "error": "发送时出现问题，请重试或直接发邮件给我。",
-    "validation_error": "请至少输入 10 个字符，让我了解你的需求。"
+    "validation_error": "请至少输入 10 个字符，让我了解你的需求。",
+    "direct_email_label": "电子邮箱",
+    "copy_email": "复制邮箱",
+    "open_email_client": "打开邮箱客户端",
+    "copy_success": "邮箱已复制！",
+    "copy_error": "复制失败，请手动复制。"
   }
 }

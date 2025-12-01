@@ -79,7 +79,7 @@
   },
   "contact": {
     "title": "Schreib mir",
-    "description": "Ich bin offen für neue Möglichkeiten – schick mir eine Nachricht oder kontaktiere mich in sozialen Netzwerken.",
+    "description": "Kopiere meine E-Mail unten oder finde mich in den sozialen Netzwerken.",
     "name_placeholder": "Dein Name",
     "email_placeholder": "Deine E-Mail (optional)",
     "message_placeholder": "Deine Nachricht",
@@ -89,6 +89,11 @@
     "no_email": "Keine E-Mail konfiguriert. Bitte kontaktiere mich direkt.",
     "success": "Danke für deine Nachricht! Ich melde mich bald.",
     "error": "Beim Senden ist ein Fehler aufgetreten. Bitte versuch es erneut oder schreib mir direkt per E-Mail.",
-    "validation_error": "Bitte schreibe mindestens 10 Zeichen, damit ich dir helfen kann."
+    "validation_error": "Bitte schreibe mindestens 10 Zeichen, damit ich dir helfen kann.",
+    "direct_email_label": "E-Mail-Adresse",
+    "copy_email": "E-Mail kopieren",
+    "open_email_client": "E-Mail-App öffnen",
+    "copy_success": "E-Mail wurde kopiert!",
+    "copy_error": "Kopieren fehlgeschlagen. Bitte manuell kopieren."
   }
 }

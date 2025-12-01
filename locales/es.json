@@ -79,7 +79,7 @@
   },
   "contact": {
     "title": "Ponte en contacto",
-    "description": "Actualmente estoy abierto a nuevas oportunidades — envíame un mensaje o encuéntrame en redes sociales.",
+    "description": "Copia mi correo a continuación o encuéntrame en redes sociales.",
     "name_placeholder": "Tu nombre",
     "email_placeholder": "Tu correo (opcional)",
     "message_placeholder": "Tu mensaje",
@@ -89,6 +89,11 @@
     "no_email": "No hay correo configurado. Contáctame directamente.",
     "success": "¡Gracias por tu mensaje! Te responderé pronto.",
     "error": "Algo salió mal al enviar. Vuelve a intentarlo o escríbeme directamente por correo.",
-    "validation_error": "Escribe al menos 10 caracteres para contarme cómo puedo ayudarte."
+    "validation_error": "Escribe al menos 10 caracteres para contarme cómo puedo ayudarte.",
+    "direct_email_label": "Correo electrónico",
+    "copy_email": "Copiar correo",
+    "open_email_client": "Abrir cliente de correo",
+    "copy_success": "¡Correo copiado!",
+    "copy_error": "No se pudo copiar. Copia manualmente."
   }
 }

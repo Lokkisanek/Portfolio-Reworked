@@ -79,7 +79,7 @@
   },
   "contact": {
     "title": "Fale comigo",
-    "description": "Estou aberto a novas oportunidades — envie uma mensagem ou me encontre nas redes sociais.",
+    "description": "Copie meu e-mail abaixo ou encontre-me nas redes sociais.",
     "name_placeholder": "Seu nome",
     "email_placeholder": "Seu e-mail (opcional)",
     "message_placeholder": "Sua mensagem",
@@ -89,6 +89,11 @@
     "no_email": "Nenhum e-mail configurado. Fale comigo diretamente.",
     "success": "Obrigado pela mensagem! Vou responder em breve.",
     "error": "Algo deu errado no envio. Tente novamente ou mande um e-mail diretamente.",
-    "validation_error": "Escreva pelo menos 10 caracteres para eu entender como posso ajudar."
+    "validation_error": "Escreva pelo menos 10 caracteres para eu entender como posso ajudar.",
+    "direct_email_label": "Endereço de e-mail",
+    "copy_email": "Copiar e-mail",
+    "open_email_client": "Abrir aplicativo de e-mail",
+    "copy_success": "E-mail copiado!",
+    "copy_error": "Falha ao copiar. Copie manualmente."
   }
 }

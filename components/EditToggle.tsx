@@ -9,6 +9,7 @@ export default function EditToggle() {
     const [isOpen, setIsOpen] = useState(false);
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
+    const hasCustomPassword = Boolean(process.env.NEXT_PUBLIC_EDIT_PASSWORD);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -75,7 +76,14 @@ export default function EditToggle() {
                                 Login
                             </button>
                         </form>
-                        <p className="text-gray-500 text-xs mt-4 text-center">Default: admin123</p>
+                        {!hasCustomPassword && (
+                            <p className="text-gray-500 text-xs mt-4 text-center">Default password: admin123</p>
+                        )}
+                        {hasCustomPassword && (
+                            <p className="text-gray-500 text-xs mt-4 text-center">
+                                Password configured via NEXT_PUBLIC_EDIT_PASSWORD
+                            </p>
+                        )}
                     </div>
                 </div>
             )}

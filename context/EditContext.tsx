@@ -7,6 +7,8 @@ type Content = any;
 
 type BackgroundType = 'starfield' | 'flowing-gradient' | 'colorbends';
 
+const ADMIN_PASSWORD = (process.env.NEXT_PUBLIC_EDIT_PASSWORD || 'admin123').trim();
+
 interface EditContextType {
     isEditing: boolean;
     isAuthenticated: boolean;
@@ -56,7 +58,7 @@ export function EditProvider({ children, initialContent }: { children: ReactNode
     }, [content, hasUnsavedChanges]);
 
     const login = (password: string) => {
-        if (password === 'admin123') {
+        if (password.trim() === ADMIN_PASSWORD) {
             setIsAuthenticated(true);
             setIsEditing(true);
             return true;

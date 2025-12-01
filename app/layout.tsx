@@ -3,7 +3,7 @@ import { LocaleProvider } from '@/context/LocaleContext';
 import type { Metadata } from "next";
 import "./globals.css";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://portfolio.matyas.dev';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://matyas-odehnal.vercel.app';
 const ensureAbsoluteUrl = (value: string) =>
   value.startsWith('http://') || value.startsWith('https://') ? value : `https://${value}`;
 const resolvedSiteUrl = ensureAbsoluteUrl(SITE_URL);
@@ -73,6 +73,9 @@ export const metadata: Metadata = {
       { url: '/favicon.svg', type: 'image/svg+xml' },
     ],
     shortcut: ['/favicon.svg'],
+  },
+  verification: {
+    google: 'z3QX6romIOSo4yNiQc8v2CB67858a3fxKXbKti7we58',
   },
 };
 

@@ -3,6 +3,8 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const messagesPath = path.join(process.cwd(), 'data', 'contact-messages.json');
+const defaultRecipient = 'odehnalm.08@spst.eu';
+const defaultSender = 'Portfolio Contact <onboarding@resend.dev>';
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 type ContactPayload = {
@@ -40,37 +42,55 @@ async function persistMessage(entry: Record<string, string>) {
   }
 }
 
+async function sendViaResend(apiKey: string, payload: Record<string, any>) {
+  return fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  });
+}
+
+function needsVerifiedDomainRetry(errorText: string) {
+  return errorText.toLowerCase().includes('verified domain') || errorText.toLowerCase().includes('from address');
+}
+
 async function trySendEmail(entry: Record<string, string>): Promise<DeliveryResult> {
   const apiKey = process.env.RESEND_API_KEY;
-  const toEmail = process.env.CONTACT_TO_EMAIL;
+  const toEmail = process.env.CONTACT_TO_EMAIL ?? defaultRecipient;
   if (!apiKey || !toEmail) {
     return { delivered: false, reason: 'not_configured' };
   }
 
-  const fromEmail = process.env.CONTACT_FROM_EMAIL ?? 'Portfolio Contact <onboarding@resend.dev>';
+  const preferredSender = process.env.CONTACT_FROM_EMAIL ?? defaultSender;
+  const basePayload = {
+    from: preferredSender,
+    to: [toEmail],
+    reply_to: entry.email || undefined,
+    subject: `New portfolio inquiry from ${entry.name || 'visitor'}`,
+    text: `${entry.message}\n\nFrom: ${entry.name || 'Anonymous'}${entry.email ? ` (${entry.email})` : ''}`
+  };
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      from: fromEmail,
-      to: [toEmail],
-      reply_to: entry.email || undefined,
-      subject: `New portfolio inquiry from ${entry.name || 'visitor'}`,
-      text: `${entry.message}\n\nFrom: ${entry.name || 'Anonymous'}${entry.email ? ` (${entry.email})` : ''}`
-    })
-  });
-
-  if (!res.ok) {
-    const errorText = await res.text();
-    console.error('[contact] Resend error:', errorText);
-    return { delivered: false, reason: 'delivery_failed' };
+  const response = await sendViaResend(apiKey, basePayload);
+  if (response.ok) {
+    return { delivered: true };
   }
 
-  return { delivered: true };
+  const errorText = await response.text();
+  console.error('[contact] Resend error:', errorText);
+
+  if (preferredSender !== defaultSender && needsVerifiedDomainRetry(errorText)) {
+    const fallbackResponse = await sendViaResend(apiKey, { ...basePayload, from: defaultSender });
+    if (fallbackResponse.ok) {
+      return { delivered: true, reason: 'fallback_sender' };
+    }
+    const fallbackError = await fallbackResponse.text();
+    console.error('[contact] Resend fallback error:', fallbackError);
+  }
+
+  return { delivered: false, reason: 'delivery_failed' };
 }
 
 export async function POST(request: Request) {
@@ -116,8 +136,10 @@ export async function POST(request: Request) {
   }
 
   const responseMessage = delivery.delivered
-    ? 'Your message was sent successfully.'
-    : 'Message saved. Configure email delivery to receive notifications instantly.';
+    ? delivery.reason === 'fallback_sender'
+      ? 'Your message was sent using the default Resend sender. Configure CONTACT_FROM_EMAIL with a verified domain to customize it.'
+      : 'Your message was sent successfully.'
+    : 'Message saved locally. Configure your Resend API key and verified sender to enable email delivery.';
 
   return NextResponse.json({
     success: true,

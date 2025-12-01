@@ -1,0 +1,33 @@
+.flow-gradient-lite {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  background: linear-gradient(125deg, var(--fg-lite-color-1), var(--fg-lite-color-2), var(--fg-lite-color-3));
+  background-size: 200% 200%;
+  animation: flow-gradient-lite-shift 28s ease-in-out infinite;
+  filter: blur(0.5px) saturate(1.05);
+}
+
+.flow-gradient-lite::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.12), transparent 55%),
+              radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.08), transparent 60%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+@keyframes flow-gradient-lite-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

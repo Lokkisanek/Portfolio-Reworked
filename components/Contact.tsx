@@ -122,7 +122,7 @@ export default function Contact() {
                             <span className="text-sm">Instagram</span>
                         </a>
 
-                        <a href="#" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-3 py-2 bg-white/5 hover:bg-white/10 rounded">
+                        <a href="www.linkedin.com/in/matyáš-odehnal-97784739b" target="_blank" rel="noopener noreferrer" className="flex items-center space-x-2 px-3 py-2 bg-white/5 hover:bg-white/10 rounded">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
                                 <path d="M4.98 3.5A2.5 2.5 0 002.5 6v12a2.5 2.5 0 002.48 2.5h14.04A2.5 2.5 0 0021.5 18V6a2.5 2.5 0 00-2.48-2.5H4.98z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
                                 <path d="M8.5 10.5v6M8.5 7.75v.01" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>

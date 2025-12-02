@@ -71,10 +71,10 @@
       "#2bff00",
       "#00a1e6"
     ],
-    "speed": 1.6,
+    "speed": 0.9,
     "mouseInfluence": 0
   },
   "metrics": {
-    "visits": 124
+    "visits": 212
   }
 }

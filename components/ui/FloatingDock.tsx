@@ -1,9 +1,10 @@
 'use client';
 
 import { useEdit } from '@/context/EditContext';
-import { motion, useMotionValue, useSpring, useTransform, MotionValue } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, MotionValue, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { Home, User, Code, Briefcase, Mail, Lock, Unlock, X } from 'lucide-react';
+import { Home, User, Code, Briefcase, Mail, Lock, Unlock, X, Menu } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import GlassSurface from '@/components/ui/GlassSurface';
 import { useLocale } from '@/context/LocaleContext';
 import { supportedLocales } from '@/lib/i18n';
@@ -13,10 +14,20 @@ import { useScroll } from '@/components/ScrollContext';
 export default function FloatingDock() {
     const mouseX = useMotionValue(Infinity);
     const { isEditing, isAuthenticated, toggleEdit, login } = useEdit();
-    const { locale } = useLocale();
+    const { locale, setLocale } = useLocale();
+    const { setSelected } = useScroll();
     const [showLogin, setShowLogin] = useState(false);
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    const navItems: NavItem[] = [
+        { href: '#hero', icon: Home, label: t('navbar.home', locale) },
+        { href: '#about', icon: User, label: t('navbar.about', locale) },
+        { href: '#skills', icon: Code, label: t('navbar.skills', locale) },
+        { href: '#projects', icon: Briefcase, label: t('navbar.projects', locale) },
+        { href: '#contact', icon: Mail, label: t('navbar.contact', locale) },
+    ];
 
     const handleAdminClick = () => {
         if (isAuthenticated) {
@@ -24,6 +35,23 @@ export default function FloatingDock() {
         } else {
             setShowLogin(true);
         }
+    };
+
+    const handleLocaleChange = (key: string) => {
+        setLocale(key);
+        try {
+            fetch('/api/locale', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ locale: key })
+            });
+        } catch {
+            /* noop */
+        }
+    };
+
+    const handleNavigate = (hash: string) => {
+        setSelected(hash.replace('#', ''));
     };
 
     const handleLogin = (e: React.FormEvent) => {
@@ -37,12 +65,25 @@ export default function FloatingDock() {
         }
     };
 
+    useEffect(() => {
+        if (!mobileMenuOpen) return;
+        const { body, documentElement } = document;
+        const prevBody = body.style.overflow;
+        const prevRoot = documentElement.style.overflow;
+        body.style.overflow = 'hidden';
+        documentElement.style.overflow = 'hidden';
+        return () => {
+            body.style.overflow = prevBody;
+            documentElement.style.overflow = prevRoot;
+        };
+    }, [mobileMenuOpen]);
+
     return (
         <>
             <motion.div
+                className="hidden md:block fixed top-6 left-1/2 -translate-x-1/2 z-50"
                 onMouseMove={(e) => mouseX.set(e.pageX)}
                 onMouseLeave={() => mouseX.set(Infinity)}
-                className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
             >
                 <GlassSurface
                     width="auto"
@@ -63,11 +104,16 @@ export default function FloatingDock() {
                     className="pointer-events-auto"
                 >
                     <div className="flex items-center gap-4 px-6 py-3">
-                        <DockIcon mouseX={mouseX} href="#hero" icon={Home} label={t('navbar.home', locale)} />
-                        <DockIcon mouseX={mouseX} href="#about" icon={User} label={t('navbar.about', locale)} />
-                        <DockIcon mouseX={mouseX} href="#skills" icon={Code} label={t('navbar.skills', locale)} />
-                        <DockIcon mouseX={mouseX} href="#projects" icon={Briefcase} label={t('navbar.projects', locale)} />
-                        <DockIcon mouseX={mouseX} href="#contact" icon={Mail} label={t('navbar.contact', locale)} />
+                        {navItems.map((item) => (
+                            <DockIcon
+                                key={item.href}
+                                mouseX={mouseX}
+                                href={item.href}
+                                icon={item.icon}
+                                label={item.label}
+                                onNavigate={handleNavigate}
+                            />
+                        ))}
 
                         <div className="w-[1px] h-8 bg-white/15 mx-1 self-center" />
 
@@ -79,10 +125,31 @@ export default function FloatingDock() {
                                 />
                         </button>
 
-                            <LanguageDockButton mouseX={mouseX} />
+                            <LanguageDockButton mouseX={mouseX} onLocaleChange={handleLocaleChange} />
                     </div>
                 </GlassSurface>
             </motion.div>
+
+            <MobileDock
+                navItems={navItems}
+                isOpen={mobileMenuOpen}
+                onToggle={() => setMobileMenuOpen((prev) => !prev)}
+                onClose={() => setMobileMenuOpen(false)}
+                onNavigate={(hash) => {
+                    handleNavigate(hash);
+                    setMobileMenuOpen(false);
+                }}
+                onAdminClick={() => {
+                    handleAdminClick();
+                    setMobileMenuOpen(false);
+                }}
+                locale={locale}
+                onLocaleChange={(key) => {
+                    handleLocaleChange(key);
+                    setMobileMenuOpen(false);
+                }}
+                isEditing={isEditing}
+            />
 
             {/* Login Modal */}
             {showLogin && (
@@ -125,12 +192,10 @@ export default function FloatingDock() {
     );
 }
 
-function DockIcon({ mouseX, href, icon: Icon, label }: { mouseX: MotionValue; href: string; icon: any; label: string }) {
-    const { setSelected } = useScroll();
-
+function DockIcon({ mouseX, href, icon: Icon, label, onNavigate }: { mouseX: MotionValue; href: string; icon: LucideIcon; label: string; onNavigate: (hash: string) => void }) {
     const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        setSelected(href.replace('#', ''));
+        onNavigate(href);
     };
 
     return (
@@ -179,8 +244,8 @@ function DockIconContent({ mouseX, icon: Icon, label }: { mouseX: MotionValue; i
     );
 }
 
-function LanguageDockButton({ mouseX }: { mouseX: MotionValue }) {
-    const { locale, setLocale } = useLocale();
+function LanguageDockButton({ mouseX, onLocaleChange }: { mouseX: MotionValue; onLocaleChange: (key: string) => void }) {
+    const { locale } = useLocale();
     const [hovered, setHovered] = useState(false);
     const [open, setOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -208,17 +273,8 @@ function LanguageDockButton({ mouseX }: { mouseX: MotionValue }) {
     const localeOptions = Object.entries(supportedLocales).filter(([key]) => hasLocaleBundle(key));
 
     const selectLocale = (key: string) => {
-        setLocale(key);
+        onLocaleChange(key);
         setOpen(false);
-        try {
-            fetch('/api/locale', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ locale: key }),
-            });
-        } catch {
-            /* noop */
-        }
     };
 
     return (
@@ -291,4 +347,126 @@ function flagFor(code: string): string {
         ar: '🇦🇪',
     };
     return flags[code] || '🏳️';
+}
+
+type NavItem = {
+    href: string;
+    label: string;
+    icon: LucideIcon;
+};
+
+type MobileDockProps = {
+    navItems: NavItem[];
+    isOpen: boolean;
+    onToggle: () => void;
+    onClose: () => void;
+    onNavigate: (href: string) => void;
+    onAdminClick: () => void;
+    locale: string;
+    onLocaleChange: (key: string) => void;
+    isEditing: boolean;
+};
+
+function MobileDock({
+    navItems,
+    isOpen,
+    onToggle,
+    onClose,
+    onNavigate,
+    onAdminClick,
+    locale,
+    onLocaleChange,
+    isEditing,
+}: MobileDockProps) {
+    const localeOptions = Object.entries(supportedLocales).filter(([key]) => hasLocaleBundle(key));
+
+    return (
+        <div className="md:hidden fixed top-4 right-4 z-50">
+            <button
+                type="button"
+                onClick={onToggle}
+                className="rounded-full border border-white/15 bg-black/60 backdrop-blur px-4 py-3 text-white shadow-lg"
+                aria-expanded={isOpen}
+                aria-label="Toggle navigation menu"
+            >
+                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        <motion.button
+                            type="button"
+                            className="fixed inset-0 bg-black/70"
+                            onClick={onClose}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        />
+                        <motion.div
+                            className="fixed top-16 right-4 left-4 rounded-3xl border border-white/10 bg-slate-900/95 p-6 text-white shadow-2xl backdrop-blur"
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                        >
+                            <nav className="space-y-2">
+                                {navItems.map((item) => (
+                                    <button
+                                        key={item.href}
+                                        type="button"
+                                        onClick={() => onNavigate(item.href)}
+                                        className="w-full flex items-center gap-3 rounded-2xl border border-white/5 bg-white/5 px-4 py-3 text-left text-base font-medium hover:bg-white/10"
+                                    >
+                                        <item.icon className="w-5 h-5 text-white/70" />
+                                        <span>{item.label}</span>
+                                    </button>
+                                ))}
+                            </nav>
+
+                            <div className="mt-4 space-y-4 border-t border-white/10 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={onAdminClick}
+                                    className="w-full flex items-center justify-between rounded-2xl border border-white/10 bg-blue-500/10 px-4 py-3 text-left"
+                                >
+                                    <div>
+                                        <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t('navbar.admin', locale)}</p>
+                                        <p className="text-sm text-white/90">
+                                            {isEditing ? t('navbar.lock', locale) : t('navbar.admin', locale)}
+                                        </p>
+                                    </div>
+                                    <span className="rounded-full bg-white/10 p-2">
+                                        {isEditing ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+                                    </span>
+                                </button>
+
+                                <div>
+                                    <p className="text-xs uppercase tracking-[0.3em] text-white/60 mb-2">Languages</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {localeOptions.map(([key, val]) => (
+                                            <button
+                                                key={key}
+                                                type="button"
+                                                onClick={() => onLocaleChange(key)}
+                                                className={`flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm ${
+                                                    key === locale
+                                                        ? 'border-white/40 bg-white/15'
+                                                        : 'border-white/10 bg-white/5 hover:bg-white/10'
+                                                }`}
+                                            >
+                                                <span className="text-lg" aria-hidden>
+                                                    {flagFor(key)}
+                                                </span>
+                                                <span>{val.native}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </div>
+    );
 }

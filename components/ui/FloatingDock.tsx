@@ -1,9 +1,8 @@
 'use client';
 
-import { useEdit } from '@/context/EditContext';
 import { motion, useMotionValue, useSpring, useTransform, MotionValue, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { Home, User, Code, Briefcase, Mail, Lock, Unlock, X, Menu } from 'lucide-react';
+import { Home, User, Code, Briefcase, Mail, X, Menu } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import GlassSurface from '@/components/ui/GlassSurface';
 import { useLocale } from '@/context/LocaleContext';
@@ -13,12 +12,9 @@ import { useScroll } from '@/components/ScrollContext';
 
 export default function FloatingDock() {
     const mouseX = useMotionValue(Infinity);
-    const { isEditing, isAuthenticated, toggleEdit, login } = useEdit();
     const { locale, setLocale } = useLocale();
     const { setSelected } = useScroll();
-    const [showLogin, setShowLogin] = useState(false);
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState(false);
+    
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const navItems: NavItem[] = [
@@ -29,13 +25,7 @@ export default function FloatingDock() {
         { href: '#contact', icon: Mail, label: t('navbar.contact', locale) },
     ];
 
-    const handleAdminClick = () => {
-        if (isAuthenticated) {
-            toggleEdit();
-        } else {
-            setShowLogin(true);
-        }
-    };
+    
 
     const handleLocaleChange = (key: string) => {
         setLocale(key);
@@ -54,16 +44,7 @@ export default function FloatingDock() {
         setSelected(hash.replace('#', ''));
     };
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (login(password)) {
-            setShowLogin(false);
-            setPassword('');
-            setError(false);
-        } else {
-            setError(true);
-        }
-    };
+    
 
     useEffect(() => {
         if (!mobileMenuOpen) return;
@@ -114,18 +95,7 @@ export default function FloatingDock() {
                                 onNavigate={handleNavigate}
                             />
                         ))}
-
-                        <div className="w-[1px] h-8 bg-white/15 mx-1 self-center" />
-
-                        <button onClick={handleAdminClick} className="relative group">
-                                <DockIconContent
-                                    mouseX={mouseX}
-                                    icon={isEditing ? Unlock : Lock}
-                                    label={isEditing ? t('navbar.lock', locale) : t('navbar.admin', locale)}
-                                />
-                        </button>
-
-                            <LanguageDockButton mouseX={mouseX} onLocaleChange={handleLocaleChange} />
+                        <LanguageDockButton mouseX={mouseX} onLocaleChange={handleLocaleChange} />
                     </div>
                 </GlassSurface>
             </motion.div>
@@ -139,55 +109,14 @@ export default function FloatingDock() {
                     handleNavigate(hash);
                     setMobileMenuOpen(false);
                 }}
-                onAdminClick={() => {
-                    handleAdminClick();
-                    setMobileMenuOpen(false);
-                }}
                 locale={locale}
                 onLocaleChange={(key) => {
                     handleLocaleChange(key);
                     setMobileMenuOpen(false);
                 }}
-                isEditing={isEditing}
             />
 
-            {/* Login Modal */}
-            {showLogin && (
-                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center">
-                    <div className="bg-gray-900 p-8 rounded-lg shadow-2xl w-full max-w-md relative border border-gray-800">
-                        <button
-                            onClick={() => setShowLogin(false)}
-                            className="absolute top-4 right-4 text-gray-400 hover:text-white"
-                        >
-                            <X />
-                        </button>
-
-                        <h2 className="text-2xl font-bold text-white mb-6">Admin Login</h2>
-
-                        <form onSubmit={handleLogin} className="space-y-4">
-                            <div>
-                                <label className="block text-sm text-gray-400 mb-1">Password</label>
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full bg-gray-800 border border-gray-700 rounded px-4 py-2 text-white focus:border-blue-500 outline-none"
-                                    placeholder="Enter admin password"
-                                    autoFocus
-                                />
-                                {error && <p className="text-red-500 text-sm mt-2">Incorrect password</p>}
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="w-full bg-blue-600 hover:bg-blue-500 text-white py-2 rounded font-bold transition"
-                            >
-                                Login
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            )}
+            
         </>
     );
 }
@@ -361,10 +290,8 @@ type MobileDockProps = {
     onToggle: () => void;
     onClose: () => void;
     onNavigate: (href: string) => void;
-    onAdminClick: () => void;
     locale: string;
     onLocaleChange: (key: string) => void;
-    isEditing: boolean;
 };
 
 function MobileDock({
@@ -373,10 +300,8 @@ function MobileDock({
     onToggle,
     onClose,
     onNavigate,
-    onAdminClick,
     locale,
     onLocaleChange,
-    isEditing,
 }: MobileDockProps) {
     const localeOptions = Object.entries(supportedLocales).filter(([key]) => hasLocaleBundle(key));
 
@@ -424,22 +349,6 @@ function MobileDock({
                             </nav>
 
                             <div className="mt-4 space-y-4 border-t border-white/10 pt-4">
-                                <button
-                                    type="button"
-                                    onClick={onAdminClick}
-                                    className="w-full flex items-center justify-between rounded-2xl border border-white/10 bg-blue-500/10 px-4 py-3 text-left"
-                                >
-                                    <div>
-                                        <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t('navbar.admin', locale)}</p>
-                                        <p className="text-sm text-white/90">
-                                            {isEditing ? t('navbar.lock', locale) : t('navbar.admin', locale)}
-                                        </p>
-                                    </div>
-                                    <span className="rounded-full bg-white/10 p-2">
-                                        {isEditing ? <Unlock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
-                                    </span>
-                                </button>
-
                                 <div>
                                     <p className="text-xs uppercase tracking-[0.3em] text-white/60 mb-2">Languages</p>
                                     <div className="flex flex-wrap gap-2">

@@ -2,14 +2,13 @@
 
 import { motion, useMotionValue, useSpring, useTransform, MotionValue, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { Home, User, Code, Briefcase, Mail, X, Menu, Hand } from 'lucide-react';
+import { Home, User, Code, Briefcase, Mail, X, Menu } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import GlassSurface from '@/components/ui/GlassSurface';
 import { useLocale } from '@/context/LocaleContext';
 import { supportedLocales } from '@/lib/i18n';
 import { hasLocaleBundle, t } from '@/lib/translate';
 import { useScroll } from '@/components/ScrollContext';
-import HandGestureControl, { HandGestureModal, useHandGesture } from '@/components/ui/HandGestureControl';
 
 export default function FloatingDock() {
     const mouseX = useMotionValue(Infinity);
@@ -17,9 +16,6 @@ export default function FloatingDock() {
     const { setSelected } = useScroll();
     
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    
-    // Hand gesture control state
-    const { showModal, isActive, openModal, closeModal, handleConfirm, handleClose } = useHandGesture();
 
     const navItems: NavItem[] = [
         { href: '#hero', icon: Home, label: t('navbar.home', locale) },
@@ -99,7 +95,6 @@ export default function FloatingDock() {
                                 onNavigate={handleNavigate}
                             />
                         ))}
-                        <HandGestureDockButton mouseX={mouseX} onClick={openModal} isActive={isActive} />
                         <LanguageDockButton mouseX={mouseX} onLocaleChange={handleLocaleChange} />
                     </div>
                 </GlassSurface>
@@ -119,17 +114,7 @@ export default function FloatingDock() {
                     handleLocaleChange(key);
                     setMobileMenuOpen(false);
                 }}
-                onHandGestureClick={openModal}
-                handGestureActive={isActive}
             />
-
-            {/* Hand Gesture Modal and Control */}
-            <HandGestureModal 
-                isOpen={showModal} 
-                onConfirm={handleConfirm} 
-                onCancel={closeModal} 
-            />
-            <HandGestureControl isActive={isActive} onClose={handleClose} />
         </>
     );
 }
@@ -182,48 +167,6 @@ function DockIconContent({ mouseX, icon: Icon, label }: { mouseX: MotionValue; i
             >
                 <Icon className="w-1/2 h-1/2 text-white" />
             </motion.div>
-        </div>
-    );
-}
-
-function HandGestureDockButton({ mouseX, onClick, isActive }: { mouseX: MotionValue; onClick: () => void; isActive: boolean }) {
-    const [hovered, setHovered] = useState(false);
-    const buttonRef = useRef<HTMLButtonElement>(null);
-
-    const distance = useTransform(mouseX, (val) => {
-        const bounds = buttonRef.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-        return val - bounds.x - bounds.width / 2;
-    });
-    const widthTransform = useTransform(distance, [-150, 0, 150], [40, 80, 40]);
-    const width = useSpring(widthTransform, { mass: 0.1, stiffness: 150, damping: 12 });
-
-    return (
-        <div className="relative flex flex-col items-center">
-            {hovered && (
-                <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 10 }}
-                    className="absolute top-full mt-2 px-3 py-1 bg-black/60 text-white text-xs rounded border border-white/20 whitespace-nowrap backdrop-blur"
-                >
-                    {isActive ? 'Hand Control Active' : 'Hand Gesture Control'}
-                </motion.div>
-            )}
-
-            <motion.button
-                ref={buttonRef}
-                type="button"
-                style={{ width, height: width }}
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
-                onClick={onClick}
-                className={`aspect-square rounded-full border flex items-center justify-center transition-colors shadow-lg backdrop-blur-sm ${
-                    isActive 
-                        ? 'bg-green-500/30 border-green-400/50 hover:bg-green-500/40' 
-                        : 'bg-white/10 border-white/20 hover:bg-white/20'
-                }`}
-            >
-                <Hand className={`w-1/2 h-1/2 ${isActive ? 'text-green-300' : 'text-white'}`} />
-            </motion.button>
         </div>
     );
 }
@@ -347,8 +290,6 @@ type MobileDockProps = {
     onNavigate: (href: string) => void;
     locale: string;
     onLocaleChange: (key: string) => void;
-    onHandGestureClick: () => void;
-    handGestureActive: boolean;
 };
 
 function MobileDock({
@@ -359,8 +300,6 @@ function MobileDock({
     onNavigate,
     locale,
     onLocaleChange,
-    onHandGestureClick,
-    handGestureActive,
 }: MobileDockProps) {
     const localeOptions = Object.entries(supportedLocales).filter(([key]) => hasLocaleBundle(key));
 
@@ -408,26 +347,6 @@ function MobileDock({
                             </nav>
 
                             <div className="mt-4 space-y-4 border-t border-white/10 pt-4">
-                                {/* Hand Gesture Control */}
-                                <div>
-                                    <p className="text-xs uppercase tracking-[0.3em] text-white/60 mb-2">Gesture Control</p>
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            onHandGestureClick();
-                                            onClose();
-                                        }}
-                                        className={`w-full flex items-center gap-3 rounded-2xl border px-4 py-3 text-left text-base font-medium ${
-                                            handGestureActive
-                                                ? 'border-green-400/50 bg-green-500/20 text-green-300'
-                                                : 'border-white/10 bg-white/5 hover:bg-white/10'
-                                        }`}
-                                    >
-                                        <Hand className={`w-5 h-5 ${handGestureActive ? 'text-green-400' : 'text-white/70'}`} />
-                                        <span>{handGestureActive ? 'Hand Control Active' : 'Enable Hand Control'}</span>
-                                    </button>
-                                </div>
-
                                 <div>
                                     <p className="text-xs uppercase tracking-[0.3em] text-white/60 mb-2">Languages</p>
                                     <div className="flex flex-wrap gap-2">

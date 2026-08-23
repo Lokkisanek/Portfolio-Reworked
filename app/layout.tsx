@@ -3,7 +3,7 @@ import { LocaleProvider } from '@/context/LocaleContext';
 import type { Metadata } from "next";
 import "./globals.css";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://matyas-odehnal.vercel.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://odehnal.matyas.online';
 const ensureAbsoluteUrl = (value: string) =>
   value.startsWith('http://') || value.startsWith('https://') ? value : `https://${value}`;
 const resolvedSiteUrl = ensureAbsoluteUrl(SITE_URL);
